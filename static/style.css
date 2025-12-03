@@ -1,1 +1,37 @@
-body{font-family:Arial;}
+body {
+    background: #e5e5e5;
+    font-family: Arial, sans-serif;
+}
+
+.login-box {
+    width: 300px;
+    margin: 120px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0px 0px 12px #aaa;
+}
+
+.login-box h2 {
+    text-align: center;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0070c9;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    text-align: center;
+}
