@@ -1,37 +1,89 @@
+/* ESTILO MODERNO HOLCIM - OPCIÓN B */
+
 body {
-    background: #e5e5e5;
+    margin: 0;
     font-family: Arial, sans-serif;
+    background: #f4f7f9;
 }
 
-.login-box {
-    width: 300px;
-    margin: 120px auto;
-    padding: 20px;
-    background: white;
-    border-radius: 6px;
-    box-shadow: 0px 0px 12px #aaa;
-}
-
-.login-box h2 {
-    text-align: center;
-}
-
-.login-box input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background: #0070c9;
+/* Encabezado global */
+.header {
+    background: #005baa;
     color: white;
-    border: none;
-    cursor: pointer;
+    padding: 15px;
+    font-size: 22px;
+    text-align: center;
+    font-weight: bold;
 }
 
-.error {
-    color: red;
+/* Contenedor */
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    background: #005baa;
+    margin-top: 10px;
     text-align: center;
 }
+
+.btn:hover {
+    background: #004a8c;
+}
+
+/* Botón rojo */
+.btn-danger {
+    background: #d9534f;
+}
+
+.btn-danger:hover {
+    background: #b52b27;
+}
+
+/* Formulario */
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table th, table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background: #005baa;
+    color: white;
+}
+
+/* Contador */
+.contador {
+    text-align: right;
+    font-size: 22px;
+    font-weight: bold;
+    color: #005baa;
+}
+
