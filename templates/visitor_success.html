@@ -1,38 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Ingreso Registrado</title>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body>
+    <meta charset="UTF-8">
+    <title>Visitante Registrado</title>
 
-<div class="header">Visitante Registrado</div>
-
-<div class="container">
-    <h2>Registro Exitoso</h2>
-
-    <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
-    <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
-    <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
-
-    <a href="/registro" class="btn">Registrar otro</a>
-    <a href="/home" class="btn">Menú Principal</a>
-</div>
-
-</body>
-</html>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
 
         .box {
             background: white;
             padding: 25px 35px;
             border-radius: 12px;
             width: 450px;
+            margin: 80px auto;
             text-align: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
 
+        h1 {
+            color: #005baa;
+            margin-bottom: 10px;
+        }
+
         h2 {
             color: #008f39;
+            margin-bottom: 20px;
         }
 
         .info {
@@ -45,7 +40,7 @@
             margin: 5px 0;
         }
 
-        a {
+        a.boton {
             display: block;
             margin-top: 25px;
             padding: 12px;
@@ -56,28 +51,33 @@
             font-weight: bold;
         }
 
-        a:hover {
+        a.boton:hover {
             background: #004b8c;
         }
     </style>
+
 </head>
 <body>
 
-<div class="box">
-    <h2>✔ Registro Exitoso</h2>
+    <div class="box">
 
-    <div class="info">
-        <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
-        <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
-        <p><strong>Empresa:</strong> {{ visitante.empresa }}</p>
-        <p><strong>Responsable:</strong> {{ visitante.responsable }}</p>
-        <p><strong>Placa:</strong> {{ visitante.placa }}</p>
-        <p><strong>Motivo:</strong> {{ visitante.motivo }}</p>
-        <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
+        <h1>Visitante Registrado</h1>
+        <h2>✔ Registro Exitoso</h2>
+
+        <div class="info">
+            <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
+            <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
+            <p><strong>Empresa:</strong> {{ visitante.empresa }}</p>
+            <p><strong>Responsable:</strong> {{ visitante.responsable }}</p>
+            <p><strong>Placa:</strong> {{ visitante.placa }}</p>
+            <p><strong>Motivo:</strong> {{ visitante.motivo }}</p>
+            <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
+        </div>
+
+        <a class="boton" href="/visitantes">⬅ Registrar otro</a>
+        <a class="boton" href="/"> Menú Principal</a>
+
     </div>
-
-    <a href="{{ url_for('registro') }}">⬅ Volver al Registro</a>
-</div>
 
 </body>
 </html>
