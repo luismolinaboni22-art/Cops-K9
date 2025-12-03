@@ -1,37 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Registro de Visitantes - Holcim</title>
-  <style>
-    body { font-family: "Segoe UI", Arial; background: #f0f3f7; margin:0; }
-    .topbar { background: #005baa; padding: 20px 40px; color: white; font-size: 26px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .form-container { background: white; padding: 30px 20px; width: 450px; margin: 60px auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
-    h2 { color: #005baa; text-align: center; margin-bottom: 20px; }
-    input { width: 100%; padding: 12px; margin-top: 12px; border: 1px solid #ccc; border-radius: 8px; }
-    button { width: 100%; padding: 12px; margin-top: 18px; background: #005baa; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-    button:hover { background: #004b8c; }
-  </style>
+<meta charset="UTF-8">
+<title>Registro de Visitantes - Holcim</title>
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial;
+        background: #f0f3f7;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h1 {
+        color: #005baa;
+        text-align: center;
+    }
+
+    form {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 20px;
+        background: #005baa;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.2s;
+    }
+
+    button:hover {
+        background: #004b8c;
+    }
+
+    table {
+        width: 90%;
+        margin: 30px auto;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background: #005baa;
+        color: white;
+    }
+
+    tr:hover {
+        background: #f5f5f5;
+    }
+
+    .exit-form {
+        margin: 0;
+    }
+</style>
 </head>
 <body>
 
-  <div class="topbar">Registro de Visitantes - Holcim</div>
+<h1>Registro de Visitantes - Holcim</h1>
 
-  <div class="form-container">
-    <h2>Registrar Visitante</h2>
-    <form method="POST">
-      <input type="text" name="nombre" placeholder="Nombre completo" required>
-      <input type="text" name="cedula" placeholder="Cédula" required>
-      <input type="text" name="empresa" placeholder="Empresa" required>
-      <input type="text" name="responsable" placeholder="Persona responsable" required>
-      <input type="text" name="placa" placeholder="Placa del vehículo">
-      <input type="text" name="motivo" placeholder="Motivo de la visita">
-      <button type="submit">Registrar</button>
-    </form>
+<form method="POST">
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required>
 
-    <!-- Botón para volver al Home / Menú principal -->
-    <button onclick="location.href='/home'" style="margin-top:15px; background:#333; color:white;">Volver al Menú</button>
-  </div>
+    <label>Cédula:</label>
+    <input type="text" name="cedula" required>
+
+    <label>Empresa:</label>
+    <input type="text" name="empresa" required>
+
+    <label>Persona a visitar:</label>
+    <input type="text" name="responsable" required>
+
+    <label>Motivo:</label>
+    <input type="text" name="motivo" required>
+
+    <label>Placa del vehículo:</label>
+    <input type="text" name="placa">
+
+    <button type="submit">Registrar Ingreso</button>
+</form>
+
+{% if visitors %}
+<table>
+    <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Empresa</th>
+        <th>Responsable</th>
+        <th>Motivo</th>
+        <th>Placa</th>
+        <th>Hora Ingreso</th>
+        <th>Hora Salida</th>
+        <th>Acciones</th>
+    </tr>
+    {% for v in visitors %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ v.nombre }}</td>
+        <td>{{ v.cedula }}</td>
+        <td>{{ v.empresa }}</td>
+        <td>{{ v.responsable }}</td>
+        <td>{{ v.motivo }}</td>
+        <td>{{ v.placa }}</td>
+        <td>{{ v.hora_ingreso }}</td>
+        <td>{{ v.hora_salida or '-' }}</td>
+        <td>
+            {% if not v.hora_salida %}
+            <form class="exit-form" method="GET" action="{{ url_for('salida', index=loop.index0) }}">
+                <button type="submit">Dar Salida</button>
+            </form>
+            {% else %}
+            -
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
 
 </body>
 </html>
