@@ -1,116 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Principal - Holcim</title>
+<meta charset="UTF-8">
+<title>Panel de Control - Holcim</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f4f6f9;
-        }
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: #f0f3f7;
+    }
 
-        /* BARRA SUPERIOR */
-        .topbar {
-            background-color: #003A70; /* Azul corporativo Holcim */
-            color: white;
-            padding: 18px 30px;
-            font-size: 22px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
+    /* BARRA SUPERIOR */
+    .topbar {
+        background: #005baa;
+        padding: 20px 40px;
+        color: white;
+        font-size: 26px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
 
-        /* CONTENEDOR CENTRAL */
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            padding: 40px;
-        }
+    /* GRID DE TARJETAS */
+    .container {
+        width: 90%;
+        max-width: 1300px;
+        margin: 50px auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
 
-        /* TARJETAS */
-        .card {
-            background: white;
-            border-radius: 12px;
-            padding: 30px 25px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-            text-align: center;
-            cursor: pointer;
-            transition: 0.25s ease;
-            border-top: 5px solid #003A70;  /* Azul corporativo */
-        }
+    .card {
+        background: white;
+        padding: 35px 25px;
+        border-radius: 14px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        cursor: pointer;
+        transition: all .25s ease-in-out;
+        border-top: 6px solid #005baa;
+    }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
-        }
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+    }
 
-        .card h3 {
-            margin-top: 10px;
-            font-size: 20px;
-            color: #003A70;
-            font-weight: 700;
-        }
+    .card h3 {
+        margin-bottom: 10px;
+        font-size: 21px;
+        color: #005baa;
+        font-weight: bold;
+    }
 
-        .card p {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        /* ÍCONOS */
-        .icon {
-            font-size: 42px;
-            color: #003A70;
-            margin-bottom: 10px;
-        }
-    </style>
-
-    <!-- ICONOS -->
-    <link rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    .card p {
+        color: #333;
+        font-size: 15px;
+    }
+</style>
 </head>
+
 <body>
 
-    <div class="topbar">
-        Dashboard de Control de Accesos – Holcim Costa Rica
+<div class="topbar">Sistema de Control de Accesos - Holcim</div>
+
+<div class="container">
+
+    <!-- Visitantes -->
+    <div class="card" onclick="location.href='/registro'">
+        <h3>Registro de Visitantes</h3>
+        <p>Ingreso, salida y control de visitantes</p>
     </div>
 
-    <div class="container">
-
-        <!-- REGISTRO DE VISITANTES -->
-        <div class="card" onclick="location.href='registro_visitantes.html'">
-            <div class="icon"><i class="fa-solid fa-id-card"></i></div>
-            <h3>Registro de Visitantes</h3>
-            <p>Registrar ingreso y salida de visitantes</p>
-        </div>
-
-        <!-- CONSULTAS -->
-        <div class="card" onclick="location.href='consultas.html'">
-            <div class="icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <h3>Consultas</h3>
-            <p>Búsqueda de registros almacenados</p>
-        </div>
-
-        <!-- REPORTES -->
-        <div class="card" onclick="location.href='reportes.html'">
-            <div class="icon"><i class="fa-solid fa-chart-line"></i></div>
-            <h3>Reportes</h3>
-            <p>Generación de informes y estadísticas</p>
-        </div>
-
-        <!-- ADMINISTRACIÓN -->
-        <div class="card" onclick="location.href='admin.html'">
-            <div class="icon"><i class="fa-solid fa-gear"></i></div>
-            <h3>Administración</h3>
-            <p>Gestión de usuarios y permisos</p>
-        </div>
-
+    <!-- Contratistas -->
+    <div class="card" onclick="location.href='/contratistas'">
+        <h3>Registro de Contratistas</h3>
+        <p>Ingreso del personal contratado para trabajos</p>
     </div>
+
+    <!-- Proveedores -->
+    <div class="card" onclick="location.href='/proveedores'">
+        <h3>Registro de Proveedores</h3>
+        <p>Control de proveedores externos de servicios</p>
+    </div>
+
+    <!-- Reportes -->
+    <div class="card" onclick="location.href='/reportes'">
+        <h3>Reportes Históricos</h3>
+        <p>Consultar ingresos por fecha, empresa, tipo o persona</p>
+    </div>
+
+</div>
 
 </body>
 </html>
