@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reportes Históricos - Holcim</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial;
+        background: #eef2f5;
+    }
+
+    .topbar {
+        background: #005baa;
+        padding: 20px 40px;
+        color: white;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .container {
+        width: 95%;
+        margin: 40px auto;
+    }
+
+    h2 {
+        color: #005baa;
+        margin-top: 40px;
+        border-left: 8px solid #005baa;
+        padding-left: 10px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    th {
+        background: #005baa;
+        color: white;
+        padding: 12px;
+        font-size: 15px;
+    }
+
+    td {
+        padding: 10px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 14px;
+    }
+
+    tr:hover {
+        background: #f1f7ff;
+    }
+
+    .back {
+        display: inline-block;
+        margin-top: 25px;
+        padding: 12px 25px;
+        background: #005baa;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .back:hover {
+        background: #004b8c;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="topbar">Reportes Históricos de Ingresos</div>
+
+<div class="container">
+
+    <!-- Visitantes -->
+    <h2>Visitantes</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Empresa</th>
+            <th>Responsable</th>
+            <th>Placa</th>
+            <th>Motivo</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+        </tr>
+        {% for v in visitantes %}
+        <tr>
+            <td>{{ v.nombre }}</td>
+            <td>{{ v.cedula }}</td>
+            <td>{{ v.empresa }}</td>
+            <td>{{ v.responsable }}</td>
+            <td>{{ v.placa }}</td>
+            <td>{{ v.motivo }}</td>
+            <td>{{ v.hora_ingreso }}</td>
+            <td>{{ v.hora_salida if v.hora_salida else "Pendiente" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Contratistas -->
+    <h2>Contratistas</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Empresa</th>
+            <th>Responsable</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+        </tr>
+        {% for c in contratistas %}
+        <tr>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.cedula }}</td>
+            <td>{{ c.empresa }}</td>
+            <td>{{ c.responsable }}</td>
+            <td>{{ c.hora_ingreso }}</td>
+            <td>{{ c.hora_salida if c.hora_salida else "Pendiente" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Proveedores -->
+    <h2>Proveedores</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Empresa</th>
+            <th>Responsable</th>
+            <th>Motivo</th>
+            <th>Ingreso</th>
+            <th>Salida</th>
+        </tr>
+        {% for p in proveedores %}
+        <tr>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.cedula }}</td>
+            <td>{{ p.empresa }}</td>
+            <td>{{ p.responsable }}</td>
+            <td>{{ p.motivo }}</td>
+            <td>{{ p.hora_ingreso }}</td>
+            <td>{{ p.hora_salida if p.hora_salida else "Pendiente" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a class="back" href="/home">⬅ Volver al Menú Principal</a>
+
+</div>
+
+</body>
+</html>
