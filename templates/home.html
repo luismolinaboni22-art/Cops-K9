@@ -92,16 +92,9 @@
         <p>Consultar ingresos por fecha, empresa, tipo o persona</p>
     </div>
 
-</div>
-<!-- Botón Usuarios -->
-<div class="dashboard-button">
-  <button onclick="toggleUserMenu()">Usuarios ⚙️</button>
-  <div id="userMenu" style="display:none; margin-top: 10px;">
-    <a href="{{ url_for('crear_usuario') }}">Crear Usuario</a>
-    <a href="{{ url_for('cambiar_password') }}">Cambiar Contraseña</a>
-  </div>
-</div>
+    <!-- Configuración de Usuarios -->
+    <div class="card" onclick="location.href='/configuracion_usuarios'">
+        <h3>Configuración ⚙️</h3>
+        <p>Ges
 
-</body>
-</html>
 
