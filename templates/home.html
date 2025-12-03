@@ -1,73 +1,17 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Menú Principal - Holcim</title>
-
-    <style>
-        body {
-            background: #f4f4f4;
-            font-family: Arial, sans-serif;
-            padding: 30px;
-        }
-
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-            margin-top: 30px;
-        }
-
-        .menu a {
-            background: #005baa;
-            padding: 15px;
-            text-align: center;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .menu a:hover {
-            background: #004b8c;
-        }
-
-        img {
-            width: 180px;
-            display: block;
-            margin: auto;
-            margin-bottom: 20px;
-        }
-    </style>
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
+<div class="header">Menú Principal - Holcim</div>
+
 <div class="container">
+    <h2>Bienvenido</h2>
 
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Holcim_logo_2021.svg/512px-Holcim_logo_2021.svg.png">
-
-    <h2>Menú Principal</h2>
-
-    <div class="menu">
-        <a href="{{ url_for('registro') }}"> Registrar Visitantes</a>
-        <a href="/"> Cerrar Sesión</a>
-    </div>
-
+    <a href="/registro" class="btn">Registrar Visitantes</a>
 </div>
 
 </body>
