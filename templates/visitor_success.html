@@ -1,17 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Registro Exitoso</title>
+    <title>Ingreso Registrado</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
 
-    <style>
-        body {
-            background: #e8e8e8;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            padding-top: 60px;
-        }
+<div class="header">Visitante Registrado</div>
+
+<div class="container">
+    <h2>Registro Exitoso</h2>
+
+    <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
+    <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
+    <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
+
+    <a href="/registro" class="btn">Registrar otro</a>
+    <a href="/home" class="btn">Menú Principal</a>
+</div>
+
+</body>
+</html>
 
         .box {
             background: white;
