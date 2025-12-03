@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Proveedores</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .contenedor { display: flex; justify-content: space-between; align-items: center; }
+        .contador { background: #004080; color: white; padding: 10px 20px; border-radius: 8px; font-size: 22px; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        table { width: 100%; margin-top: 30px; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Registro de Proveedores</h2>
+
+    <div class="contador">
+        Dentro: {{ providers|selectattr("hora_salida", "equalto", None)|list|length }}
+    </div>
+</div>
+
+<form action="/proveedores" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre del proveedor" required>
+    <input type="text" name="cedula" placeholder="Cédula" required>
+    <input type="text" name="empresa" placeholder="Empresa proveedora" required>
+    <input type="text" name="responsable" placeholder="Responsable del despacho" required>
+    <input type="text" name="motivo" placeholder="Motivo de la entrega" required>
+
+    <button type="submit">Registrar ingreso</button>
+</form>
+
+<h3>Proveedores en sitio</h3>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Empresa</th>
+        <th>Responsable</th>
+        <th>Motivo</th>
+        <th>Hora Ingreso</th>
+        <th>Salida</th>
+    </tr>
+
+    {% for p in providers %}
+        <tr>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.cedula }}</td>
+            <td>{{ p.empresa }}</td>
+            <td>{{ p.responsable }}</td>
+            <td>{{ p.motivo }}</td>
+            <td>{{ p.hora_ingreso }}</td>
+
+            <td>
+                {% if p.hora_salida %}
+                    {{ p.hora_salida }}
+                {% else %}
+                    <a href="/salida_proveedor/{{ loop.index0 }}">Registrar salida</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<a href="/home"><button>Menú Principal</button></a>
+
+</body>
+</html>
