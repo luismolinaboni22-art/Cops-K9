@@ -69,7 +69,11 @@ def registro():
 
         return render_template("visitor_success.html", visitante=visitante)
 
-    return render_template("visitor_form.html", visitors=VISITORS)
+    # ➜ CONTAR VISITANTES DENTRO
+    cantidad_dentro = sum(1 for v in VISITORS if v["hora_salida"] is None)
+
+    return render_template("visitor_form.html", visitors=VISITORS, cantidad_dentro=cantidad_dentro)
+
 
 
 # ------------------------
