@@ -1,141 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Panel de Control - Holcim</title>
+    <meta charset="UTF-8">
+    <title>Home - Holcim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #003e70, #007acc);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            color: #333;
+        }
 
-<style>
-    body {
-        margin: 0;
-        font-family: "Segoe UI", Arial;
-        background: #f0f3f7;
-    }
+        .topbar {
+            width: 100%;
+            background: #005baa;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
 
-    /* BARRA SUPERIOR */
-    .topbar {
-        background: #005baa;
-        padding: 20px 40px;
-        color: white;
-        font-size: 26px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
+        .container {
+            margin-top: 50px;
+            text-align: center;
+        }
 
-    /* GRID DE TARJETAS */
-    .container {
-        width: 90%;
-        max-width: 1300px;
-        margin: 50px auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-    }
+        .container h1 {
+            color: white;
+            margin-bottom: 40px;
+        }
 
-    .card {
-        background: white;
-        padding: 35px 25px;
-        border-radius: 14px;
-        text-align: center;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-        cursor: pointer;
-        transition: all .25s ease-in-out;
-        border-top: 6px solid #005baa;
-        position: relative;
-    }
+        button {
+            padding: 14px 25px;
+            margin: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-    .card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 28px rgba(0,0,0,0.18);
-    }
+        .btn-primary {
+            background: #005baa;
+            color: white;
+        }
 
-    .card h3 {
-        margin-bottom: 10px;
-        font-size: 21px;
-        color: #005baa;
-        font-weight: bold;
-    }
+        .btn-primary:hover {
+            background: #004b8c;
+        }
 
-    .card p {
-        color: #333;
-        font-size: 15px;
-    }
+        .btn-logout {
+            background: #cc0000;
+            color: white;
+        }
 
-    /* Submenú de Configuración */
-    .submenu {
-        display: none;
-        margin-top: 15px;
-        text-align: center;
-    }
+        .btn-logout:hover {
+            background: #990000;
+        }
 
-    .submenu button {
-        width: 80%;
-        padding: 10px;
-        margin: 5px 0;
-        background: #005baa;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .submenu button:hover {
-        background: #004b8c;
-    }
-</style>
-
-<script>
-function toggleSubmenu() {
-    const menu = document.getElementById("configMenu");
-    menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
-}
-</script>
+        .footer-text {
+            color: #ffffffcc;
+            position: absolute;
+            bottom: 10px;
+            font-size: 13px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="topbar">Sistema de Registro de Visitantes - Holcim</div>
+    <div class="topbar">Sistema de Control de Accesos - Holcim</div>
 
-<div class="container">
+    <div class="container">
+        <h1>Bienvenido al Sistema Holcim</h1>
 
-    <!-- Visitantes -->
-    <div class="card" onclick="location.href='/registro'">
-        <h3>Registro de Visitantes</h3>
-        <p>Ingreso, salida y control de visitantes</p>
+        <!-- Botón Menú Principal -->
+        <a href="{{ url_for('main_menu') }}">
+            <button class="btn-primary">Menú Principal</button>
+        </a>
+
+        <!-- Botón Cerrar Sesión -->
+        <form action="{{ url_for('logout') }}" method="POST" style="display:inline;">
+            <button type="submit" class="btn-logout">Cerrar Sesión</button>
+        </form>
     </div>
 
-    <!-- Contratistas -->
-    <div class="card" onclick="location.href='/contratistas'">
-        <h3>Registro de Contratistas</h3>
-        <p>Ingreso del personal contratado para trabajos</p>
+    <div class="footer-text">
+        © 2025 Holcim Costa Rica – Sistema de Control de Accesos
     </div>
-
-    <!-- Proveedores -->
-    <div class="card" onclick="location.href='/proveedores'">
-        <h3>Registro de Proveedores</h3>
-        <p>Control de proveedores externos de servicios</p>
-    </div>
-
-    <!-- Reportes -->
-    <div class="card" onclick="location.href='/reportes'">
-        <h3>Reportes Históricos</h3>
-        <p>Consultar ingresos por fecha, empresa, tipo o persona</p>
-    </div>
-
-    <!-- Configuración de Usuarios con submenú -->
-    <div class="card" onclick="toggleSubmenu()">
-        <h3>Configuración ⚙️</h3>
-        <p>Gestión de cuentas y contraseñas</p>
-        <div class="submenu" id="configMenu">
-            <button onclick="location.href='/crear_usuario'">Crear Usuario</button>
-            <button onclick="location.href='/cambiar_password'">Cambiar Contraseña</button>
-        </div>
-    </div>
-
-</div>
 
 </body>
 </html>
-
