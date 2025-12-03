@@ -2,44 +2,74 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Principal</title>
+    <title>Menú Principal - Holcim</title>
+
     <style>
         body {
-            font-family: Arial;
-            background-color: #f1f1f1;
-            text-align: center;
-            padding-top: 60px;
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
+            padding: 30px;
         }
-        .card {
+
+        .container {
+            max-width: 700px;
+            margin: auto;
             background: white;
-            width: 400px;
-            margin: 0 auto;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px #999;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
-        a {
-            display: block;
-            background: #007bff;
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        .menu a {
+            background: #005baa;
+            padding: 15px;
+            text-align: center;
             color: white;
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 5px;
             text-decoration: none;
+            font-size: 18px;
+            border-radius: 8px;
+            font-weight: bold;
         }
-        a:hover { background: #0056b3; }
+
+        .menu a:hover {
+            background: #004b8c;
+        }
+
+        img {
+            width: 180px;
+            display: block;
+            margin: auto;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>Bienvenido al sistema de registro de visitantes</h2>
-    <h3>Holcim Costa Rica</h3>
+<div class="container">
 
-    <a href="{{ url_for('registro') }}">Registrar visitante</a>
-    <a href="{{ url_for('registro') }}">Ver visitantes</a>
-    <a href="/">Cerrar sesión</a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Holcim_logo_2021.svg/512px-Holcim_logo_2021.svg.png">
+
+    <h2>Menú Principal</h2>
+
+    <div class="menu">
+        <a href="{{ url_for('registro') }}">📋 Registrar Visitantes</a>
+        <a href="/">🚪 Cerrar Sesión</a>
+    </div>
+
 </div>
 
 </body>
 </html>
+
