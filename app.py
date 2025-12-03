@@ -143,6 +143,43 @@ def reportes():
         contratistas=CONTRACTORS,
         proveedores=PROVIDERS
     )
+# ------------------------
+#   CREAR USUARIO
+# ------------------------
+@app.route("/crear_usuario", methods=["GET", "POST"])
+def crear_usuario():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        role = request.form["role"]
+
+        for u in USERS:
+            if u["username"] == username:
+                return render_template("crear_usuario.html", error="Usuario ya existe")
+
+        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
+        USERS.append({"username": username, "password": hashed, "role": role})
+        return render_template("crear_usuario.html", success="Usuario creado exitosamente")
+
+    return render_template("crear_usuario.html")
+
+# ------------------------
+#   CAMBIAR CONTRASEÑA
+# ------------------------
+@app.route("/cambiar_password", methods=["GET", "POST"])
+def cambiar_password():
+    if request.method == "POST":
+        username = request.form["username"]
+        old_pass = request.form["old_password"]
+        new_pass = request.form["new_password"]
+
+        for u in USERS:
+            if u["username"] == username and bcrypt.check_password_hash(u["password"], old_pass):
+                u["password"] = bcrypt.generate_password_hash(new_pass).decode("utf-8")
+                return render_template("cambiar_password.html", success="Contraseña actualizada correctamente")
+        return render_template("cambiar_password.html", error="Usuario o contraseña incorrecta")
+    
+    return render_template("cambiar_password.html")
 
 
 # ------------------------
