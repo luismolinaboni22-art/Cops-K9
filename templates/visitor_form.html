@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registro de Visitantes Holcim</title>
+</head>
+<body>
+
+<h2>Registrar Visitante</h2>
+
+<form action="/registro" method="POST">
+
+    <label>Nombre completo:</label>
+    <input type="text" name="nombre" required><br><br>
+
+    <label>Cédula:</label>
+    <input type="text" name="cedula" required><br><br>
+
+    <label>Empresa:</label>
+    <input type="text" name="empresa" required><br><br>
+
+    <label>Responsable que autoriza:</label>
+    <input type="text" name="responsable" required><br><br>
+
+    <label>Placa del vehículo:</label>
+    <input type="text" name="placa"><br><br>
+
+    <label>Motivo de ingreso:</label>
+    <input type="text" name="motivo" required><br><br>
+
+    <button type="submit">Registrar ingreso</button>
+</form>
+
+<hr>
+
+<h2>Visitantes en sitio</h2>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Empresa</th>
+        <th>Responsable</th>
+        <th>Placa</th>
+        <th>Motivo</th>
+        <th>Ingreso</th>
+        <th>Salida</th>
+        <th>Acciones</th>
+    </tr>
+
+    {% for v in visitors %}
+    <tr>
+        <td>{{ v.nombre }}</td>
+        <td>{{ v.cedula }}</td>
+        <td>{{ v.empresa }}</td>
+        <td>{{ v.responsable }}</td>
+        <td>{{ v.placa }}</td>
+        <td>{{ v.motivo }}</td>
+        <td>{{ v.hora_ingreso }}</td>
+        <td>{{ v.hora_salida if v.hora_salida else "Pendiente" }}</td>
+        <td>
+            {% if not v.hora_salida %}
+                <a href="/salida/{{ loop.index0 }}">Registrar salida</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
