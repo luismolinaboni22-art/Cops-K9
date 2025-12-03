@@ -1,79 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <meta charset="UTF-8">
-    <title>Registro de Visitantes</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        .contenedor { display: flex; justify-content: space-between; align-items: center; }
-        .contador { background: #004884; color: white; padding: 10px 20px; border-radius: 8px; font-size: 22px; font-weight: bold; }
-        form { margin-top: 20px; width: 400px; }
-        input, select { width: 100%; padding: 8px; margin-bottom: 10px; }
-        table { width: 100%; margin-top: 30px; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Registro de Visitantes - Holcim</title>
+  <style>
+    body { font-family: "Segoe UI", Arial; background: #f0f3f7; margin:0; }
+    .topbar { background: #005baa; padding: 20px 40px; color: white; font-size: 26px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .form-container { background: white; padding: 30px 20px; width: 450px; margin: 60px auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    h2 { color: #005baa; text-align: center; margin-bottom: 20px; }
+    input { width: 100%; padding: 12px; margin-top: 12px; border: 1px solid #ccc; border-radius: 8px; }
+    button { width: 100%; padding: 12px; margin-top: 18px; background: #005baa; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #004b8c; }
+  </style>
 </head>
 <body>
 
-<div class="contenedor">
-    <h2>Registro de Visitantes</h2>
+  <div class="topbar">Registro de Visitantes - Holcim</div>
 
-    <!-- CONTADOR A LA DERECHA -->
-    <div class="contador">
-        Visitantes dentro: {{ visitors|selectattr("hora_salida", "equalto", None)|list|length }}
-    </div>
-</div>
+  <div class="form-container">
+    <h2>Registrar Visitante</h2>
+    <form method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="text" name="cedula" placeholder="Cédula" required>
+      <input type="text" name="empresa" placeholder="Empresa" required>
+      <input type="text" name="responsable" placeholder="Persona responsable" required>
+      <input type="text" name="placa" placeholder="Placa del vehículo">
+      <input type="text" name="motivo" placeholder="Motivo de la visita">
+      <button type="submit">Registrar</button>
+    </form>
 
-<form action="/registro" method="POST">
-    <input type="text" name="nombre" placeholder="Nombre" required>
-    <input type="text" name="cedula" placeholder="Cédula" required>
-    <input type="text" name="empresa" placeholder="Empresa" required>
-    <input type="text" name="responsable" placeholder="Responsable de ingreso" required>
-    <input type="text" name="placa" placeholder="Placa" required>
-    <input type="text" name="motivo" placeholder="Motivo" required>
-
-    <button type="submit">Registrar ingreso</button>
-</form>
-
-<h3>Visitantes en sitio</h3>
-
-<table>
-    <tr>
-        <th>Nombre</th>
-        <th>Cédula</th>
-        <th>Empresa</th>
-        <th>Responsable</th>
-        <th>Placa</th>
-        <th>Motivo</th>
-        <th>Hora Ingreso</th>
-        <th>Salida</th>
-    </tr>
-
-    {% for v in visitors %}
-        <tr>
-            <td>{{ v.nombre }}</td>
-            <td>{{ v.cedula }}</td>
-            <td>{{ v.empresa }}</td>
-            <td>{{ v.responsable }}</td>
-            <td>{{ v.placa }}</td>
-            <td>{{ v.motivo }}</td>
-            <td>{{ v.hora_ingreso }}</td>
-
-            <td>
-                {% if v.hora_salida %}
-                    {{ v.hora_salida }}
-                {% else %}
-                    <a href="/salida/{{ loop.index0 }}">Registrar salida</a>
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-
-</table>
+    <!-- Botón para volver al Home / Menú principal -->
+    <button onclick="location.href='/home'" style="margin-top:15px; background:#333; color:white;">Volver al Menú</button>
+  </div>
 
 </body>
 </html>
-
-
