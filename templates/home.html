@@ -1,12 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Panel Holcim</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <title>Panel Principal</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f1f1f1;
+            text-align: center;
+            padding-top: 60px;
+        }
+        .card {
+            background: white;
+            width: 400px;
+            margin: 0 auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #999;
+        }
+        a {
+            display: block;
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        a:hover { background: #0056b3; }
+    </style>
 </head>
 <body>
 
-<h1>Bienvenido al sistema de registro de visitantes Holcim Costa Rica</h1>
+<div class="card">
+    <h2>Bienvenido al sistema de registro de visitantes</h2>
+    <h3>Holcim Costa Rica</h3>
+
+    <a href="{{ url_for('registro') }}">Registrar visitante</a>
+    <a href="{{ url_for('registro') }}">Ver visitantes</a>
+    <a href="/">Cerrar sesión</a>
+</div>
 
 </body>
 </html>
