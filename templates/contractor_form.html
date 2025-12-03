@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Contratistas</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .contenedor { display: flex; justify-content: space-between; align-items: center; }
+        .contador { background: #006600; color: white; padding: 10px 20px; border-radius: 8px; font-size: 22px; font-weight: bold; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        table { width: 100%; margin-top: 30px; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div class="contenedor">
+    <h2>Registro de Contratistas</h2>
+
+    <div class="contador">
+        Dentro: {{ contractors|selectattr("hora_salida", "equalto", None)|list|length }}
+    </div>
+</div>
+
+<form action="/contratistas" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="text" name="cedula" placeholder="Cédula" required>
+    <input type="text" name="empresa" placeholder="Empresa contratista" required>
+    <input type="text" name="responsable" placeholder="Responsable del trabajo" required>
+
+    <button type="submit">Registrar ingreso</button>
+</form>
+
+<h3>Contratistas en sitio</h3>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Empresa</th>
+        <th>Responsable</th>
+        <th>Hora Ingreso</th>
+        <th>Salida</th>
+    </tr>
+
+    {% for c in contractors %}
+        <tr>
+            <td>{{ c.nombre }}</td>
+            <td>{{ c.cedula }}</td>
+            <td>{{ c.empresa }}</td>
+            <td>{{ c.responsable }}</td>
+            <td>{{ c.hora_ingreso }}</td>
+
+            <td>
+                {% if c.hora_salida %}
+                    {{ c.hora_salida }}
+                {% else %}
+                    <a href="/salida_contratista/{{ loop.index0 }}">Registrar salida</a>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+<br>
+
+<a href="/home"><button>Menú Principal</button></a>
+
+</body>
+</html>
