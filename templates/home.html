@@ -93,6 +93,14 @@
     </div>
 
 </div>
+<!-- Botón Usuarios -->
+<div class="dashboard-button">
+  <button onclick="toggleUserMenu()">Usuarios ⚙️</button>
+  <div id="userMenu" style="display:none; margin-top: 10px;">
+    <a href="{{ url_for('crear_usuario') }}">Crear Usuario</a>
+    <a href="{{ url_for('cambiar_password') }}">Cambiar Contraseña</a>
+  </div>
+</div>
 
 </body>
 </html>
