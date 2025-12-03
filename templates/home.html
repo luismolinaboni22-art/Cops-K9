@@ -2,83 +2,131 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Menú Principal - Holcim</title>
+    <title>Panel de Control - Holcim</title>
 
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f4f4; /* Fondo claro para que todo se vea */
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #e8ecf1, #ffffff);
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .menu-box {
+        .dashboard {
+            width: 900px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header img {
+            width: 120px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            color: #003e70;
+            margin: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
             background: white;
-            padding: 35px;
-            width: 420px;
-            text-align: center;
+            padding: 25px;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-            color: black; /* Texto siempre visible */
+            text-align: center;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+            transition: 0.2s;
+            cursor: pointer;
+            border-top: 6px solid #005baa;
         }
 
-        img {
-            width: 140px;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        }
+
+        .icon {
+            font-size: 45px;
             margin-bottom: 15px;
+            color: #005baa;
         }
 
-        h2 {
-            color: #003e70; 
-            font-size: 22px;
-            margin-bottom: 25px;
-        }
-
-        /* Botones siempre visibles */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            margin: 10px 0;
-            background: #005baa;
-            color: white !important; /* Asegurar color blanco */
-            text-decoration: none;
-            font-size: 17px;
-            border-radius: 10px;
+        .card h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #003e70;
             font-weight: bold;
         }
 
-        .btn:hover {
-            background: #004b8c;
+        .logout {
+            margin-top: 30px;
+            text-align: center;
         }
 
-        .btn-red {
+        .logout a {
             background: #b00020;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
         }
 
-        .btn-red:hover {
+        .logout a:hover {
             background: #8c001a;
         }
     </style>
 </head>
+
 <body>
 
-    <div class="menu-box">
+    <div class="dashboard">
 
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Holcim_logo_2021.svg/2560px-Holcim_logo_2021.svg.png" alt="Holcim">
+        <div class="header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Holcim_logo_2021.svg/2560px-Holcim_logo_2021.svg.png" alt="Holcim">
+            <h1>Panel de Control – Control de Accesos</h1>
+        </div>
 
-        <h2>Menú Principal</h2>
+        <div class="cards">
 
-        <a class="btn" href="/registro">Registro de Visitantes</a>
-        <a class="btn" href="/contratistas">Registro de Contratistas</a>
-        <a class="btn" href="/proveedores">Registro de Proveedores</a>
-        <a class="btn btn-red" href="/">Cerrar Sesión</a>
+            <a class="card" href="/registro">
+                <div class="icon">📘</div>
+                <h3>Registro de Visitantes</h3>
+            </a>
+
+            <a class="card" href="/contratistas">
+                <div class="icon">📗</div>
+                <h3>Registro de Contratistas</h3>
+            </a>
+
+            <a class="card" href="/proveedores">
+                <div class="icon">📦</div>
+                <h3>Registro de Proveedores</h3>
+            </a>
+
+        </div>
+
+        <div class="logout">
+            <a href="/">Cerrar Sesión</a>
+        </div>
 
     </div>
 
 </body>
 </html>
-
 
