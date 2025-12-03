@@ -1,84 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
     <meta charset="UTF-8">
-    <title>Visitante Registrado</title>
-
+    <title>Registro de Visitante - Holcim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            background: #f2f2f2;
-            font-family: Arial, sans-serif;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #003e70, #007acc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #333;
         }
 
-        .box {
-            background: white;
-            padding: 25px 35px;
-            border-radius: 12px;
-            width: 450px;
-            margin: 80px auto;
+        .container {
+            background: rgba(255,255,255,0.95);
+            padding: 40px;
+            border-radius: 18px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-        }
-
-        h1 {
-            color: #005baa;
-            margin-bottom: 10px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            width: 400px;
         }
 
         h2 {
-            color: #008f39;
-            margin-bottom: 20px;
+            color: #003e70;
+            margin-bottom: 25px;
         }
 
-        .info {
-            text-align: left;
-            margin-top: 20px;
+        p {
             font-size: 16px;
+            margin: 8px 0;
         }
 
-        .info p {
-            margin: 5px 0;
-        }
-
-        a.boton {
-            display: block;
-            margin-top: 25px;
-            padding: 12px;
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
             background: #005baa;
             color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
-        a.boton:hover {
+        button:hover {
             background: #004b8c;
+            transform: translateY(-2px);
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #005baa;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
     </style>
-
 </head>
 <body>
 
-    <div class="box">
+    <div class="container">
+        <h2>Registro Exitoso</h2>
 
-        <h1>Visitante Registrado</h1>
-        <h2>✔ Registro Exitoso</h2>
+        <p>Visitante: {{ visitor.nombre }}</p>
+        <p>Cédula: {{ visitor.cedula }}</p>
+        <p>Empresa: {{ visitor.empresa }}</p>
+        <p>Persona a Visitar: {{ visitor.persona_a_visitar }}</p>
+        <p>Motivo: {{ visitor.motivo }}</p>
+        <p>Placa Vehículo: {{ visitor.placa }}</p>
+        <p>Hora de Ingreso: {{ visitor.hora_ingreso.strftime('%Y-%m-%d %H:%M:%S') }}</p>
 
-        <div class="info">
-            <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
-            <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
-            <p><strong>Empresa:</strong> {{ visitante.empresa }}</p>
-            <p><strong>Responsable:</strong> {{ visitante.responsable }}</p>
-            <p><strong>Placa:</strong> {{ visitante.placa }}</p>
-            <p><strong>Motivo:</strong> {{ visitante.motivo }}</p>
-            <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
-        </div>
+        {% if not visitor.hora_salida %}
+            <form action="{{ url_for('registrar_salida', visitor_id=visitor.id) }}" method="POST">
+                <button type="submit">Registrar Salida</button>
+            </form>
+        {% else %}
+            <p>Hora de Salida: {{ visitor.hora_salida.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        {% endif %}
 
-        <a class="boton" href="/visitantes">⬅ Registrar otro</a>
-        <a class="boton" href="/"> Menú Principal</a>
-
+        <a href="{{ url_for('home') }}">Menú Principal</a>
     </div>
 
 </body>
