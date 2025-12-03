@@ -1,15 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for
+from datetime import datetime
 
 app = Flask(__name__)
 
 # Usuario quemado para prueba
 USERS = {
-    "admin": "1234"
+    "CoordinadorHolcim": "123"
 }
 
+# Memoria temporal para visitantes
+VISITORS = []
+
+
+# ------------------------
+#       LOGIN
+# ------------------------
 @app.route("/")
 def login():
     return render_template("login.html")
+
 
 @app.route("/auth", methods=["POST"])
 def auth():
@@ -20,13 +29,19 @@ def auth():
         return redirect(url_for("home"))
 
     return render_template("login.html", error="Credenciales incorrectas")
-    from flask import Flask, render_template, request, redirect, url_for
-from datetime import datetime
 
-app = Flask(__name__)
 
-VISITORS = []  # almacenamiento temporal
+# ------------------------
+#   PÁGINA PRINCIPAL
+# ------------------------
+@app.route("/home")
+def home():
+    return render_template("home.html")
 
+
+# ------------------------
+#   REGISTRO DE VISITANTES
+# ------------------------
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
 
@@ -57,12 +72,17 @@ def registro():
     return render_template("visitor_form.html", visitors=VISITORS)
 
 
+# ------------------------
+#     REGISTRAR SALIDA
+# ------------------------
 @app.route("/salida/<int:index>")
 def salida(index):
     VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return redirect(url_for("registro"))
 
 
-@app.route("/home")
-def home():
-    return render_template("home.html")
+# ------------------------
+#       RUN LOCAL
+# ------------------------
+if __name__ == "__main__":
+    app.run(debug=True)
