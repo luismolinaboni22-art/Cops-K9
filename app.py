@@ -132,6 +132,17 @@ def proveedores():
 def salida_proveedor(index):
     PROVIDERS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return redirect(url_for("proveedores"))
+# ------------------------
+#       REPORTES
+# ------------------------
+@app.route("/reportes", methods=["GET"])
+def reportes():
+    return render_template(
+        "reportes.html",
+        visitantes=VISITORS,
+        contratistas=CONTRACTORS,
+        proveedores=PROVIDERS
+    )
 
 
 # ------------------------
