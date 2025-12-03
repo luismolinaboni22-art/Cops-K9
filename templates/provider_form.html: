@@ -1,75 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <meta charset="UTF-8">
-    <title>Registro de Proveedores</title>
-    <style>
-        body { font-family: Arial; padding: 20px; }
-        .contenedor { display: flex; justify-content: space-between; align-items: center; }
-        .contador { background: #004080; color: white; padding: 10px 20px; border-radius: 8px; font-size: 22px; font-weight: bold; }
-        input { width: 100%; padding: 8px; margin-bottom: 10px; }
-        table { width: 100%; margin-top: 30px; border-collapse: collapse; }
-        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Registro de Proveedores - Holcim</title>
+  <style>
+    body { font-family: "Segoe UI", Arial; background: #f0f3f7; margin:0; }
+    .topbar { background: #005baa; padding: 20px 40px; color: white; font-size: 26px; font-weight: bold; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .form-container { background: white; padding: 30px 20px; width: 450px; margin: 60px auto; border-radius: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+    h2 { color: #005baa; text-align: center; margin-bottom: 20px; }
+    input { width: 100%; padding: 12px; margin-top: 12px; border: 1px solid #ccc; border-radius: 8px; }
+    button { width: 100%; padding: 12px; margin-top: 18px; background: #005baa; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    button:hover { background: #004b8c; }
+  </style>
 </head>
 <body>
 
-<div class="contenedor">
-    <h2>Registro de Proveedores</h2>
+  <div class="topbar">Registro de Proveedores - Holcim</div>
 
-    <div class="contador">
-        Dentro: {{ providers|selectattr("hora_salida", "equalto", None)|list|length }}
-    </div>
-</div>
+  <div class="form-container">
+    <h2>Registrar Proveedor</h2>
+    <form method="POST">
+      <input type="text" name="nombre" placeholder="Nombre completo" required>
+      <input type="text" name="cedula" placeholder="Cédula" required>
+      <input type="text" name="empresa" placeholder="Empresa" required>
+      <input type="text" name="responsable" placeholder="Persona responsable" required>
+      <input type="text" name="motivo" placeholder="Motivo de la visita">
+      <button type="submit">Registrar</button>
+    </form>
 
-<form action="/proveedores" method="POST">
-    <input type="text" name="nombre" placeholder="Nombre del proveedor" required>
-    <input type="text" name="cedula" placeholder="Cédula" required>
-    <input type="text" name="empresa" placeholder="Empresa proveedora" required>
-    <input type="text" name="responsable" placeholder="Responsable del despacho" required>
-    <input type="text" name="motivo" placeholder="Motivo de la entrega" required>
-
-    <button type="submit">Registrar ingreso</button>
-</form>
-
-<h3>Proveedores en sitio</h3>
-
-<table>
-    <tr>
-        <th>Nombre</th>
-        <th>Cédula</th>
-        <th>Empresa</th>
-        <th>Responsable</th>
-        <th>Motivo</th>
-        <th>Hora Ingreso</th>
-        <th>Salida</th>
-    </tr>
-
-    {% for p in providers %}
-        <tr>
-            <td>{{ p.nombre }}</td>
-            <td>{{ p.cedula }}</td>
-            <td>{{ p.empresa }}</td>
-            <td>{{ p.responsable }}</td>
-            <td>{{ p.motivo }}</td>
-            <td>{{ p.hora_ingreso }}</td>
-
-            <td>
-                {% if p.hora_salida %}
-                    {{ p.hora_salida }}
-                {% else %}
-                    <a href="/salida_proveedor/{{ loop.index0 }}">Registrar salida</a>
-                {% endif %}
-            </td>
-        </tr>
-    {% endfor %}
-</table>
-
-<br>
-
-<a href="/home"><button>Menú Principal</button></a>
+    <button onclick="location.href='/home'" style="margin-top:15px; background:#333; color:white;">Volver al Menú</button>
+  </div>
 
 </body>
 </html>
+
