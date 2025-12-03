@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Holcim Costa Rica</title>
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #e5e5e5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<div class="header">Registro de Visitantes - Holcim</div>
+
+<div class="container">
+    <h2>Inicio de Sesión</h2>
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    <form action="/auth" method="POST">
+        <input type="text" name="username" placeholder="Usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
+        <button class="btn">Ingresar</button>
+    </form>
+</div>
+
+</body>
+</html>
 
         .login-box {
             background: white;
