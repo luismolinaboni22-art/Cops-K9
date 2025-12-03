@@ -20,6 +20,48 @@ def auth():
         return redirect(url_for("home"))
 
     return render_template("login.html", error="Credenciales incorrectas")
+    from flask import Flask, render_template, request, redirect, url_for
+from datetime import datetime
+
+app = Flask(__name__)
+
+VISITORS = []  # almacenamiento temporal
+
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        cedula = request.form["cedula"]
+        empresa = request.form["empresa"]
+        responsable = request.form["responsable"]
+        placa = request.form["placa"]
+        motivo = request.form["motivo"]
+        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        visitante = {
+            "nombre": nombre,
+            "cedula": cedula,
+            "empresa": empresa,
+            "responsable": responsable,
+            "placa": placa,
+            "motivo": motivo,
+            "hora_ingreso": hora_ingreso,
+            "hora_salida": None
+        }
+
+        VISITORS.append(visitante)
+
+        return render_template("visitor_success.html", visitante=visitante)
+
+    return render_template("visitor_form.html", visitors=VISITORS)
+
+
+@app.route("/salida/<int:index>")
+def salida(index):
+    VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return redirect(url_for("registro"))
+
 
 @app.route("/home")
 def home():
