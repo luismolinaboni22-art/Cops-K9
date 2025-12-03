@@ -2,21 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Menú Principal</title>
-</head>
-<body>
+    <title>Menú Principal - Holcim</title>
 
-<h1>Bienvenido al sistema de registro de visitantes Holcim Costa Rica</h1>
+    <!-- Fuente moderna -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-<a href="/registro">
-    <button>Registrar Visitantes</button>
-</a>
-<a href="/contratistas">
-    <button>Registrar Contratistas</button>
-</a>
-<a href="/proveedores">
-    <button>Registrar Proveedores</button>
-</a>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #003e70, #007acc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+            overflow: hidden;
+        }
 
-</body>
-</html>
+        /* Fondo animado suave */
+        .background-animation {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+            animation: pulse 6s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); opacity: 0.6; }
+            to   { transform: scale(1.
+
