@@ -41,6 +41,7 @@
         cursor: pointer;
         transition: all .25s ease-in-out;
         border-top: 6px solid #005baa;
+        position: relative;
     }
 
     .card:hover {
@@ -59,7 +60,38 @@
         color: #333;
         font-size: 15px;
     }
+
+    /* Submenú de Configuración */
+    .submenu {
+        display: none;
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .submenu button {
+        width: 80%;
+        padding: 10px;
+        margin: 5px 0;
+        background: #005baa;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .submenu button:hover {
+        background: #004b8c;
+    }
 </style>
+
+<script>
+function toggleSubmenu() {
+    const menu = document.getElementById("configMenu");
+    menu.style.display = (menu.style.display === "none" || menu.style.display === "") ? "block" : "none";
+}
+</script>
 </head>
 
 <body>
@@ -92,9 +124,19 @@
         <p>Consultar ingresos por fecha, empresa, tipo o persona</p>
     </div>
 
-    <!-- Configuración de Usuarios -->
-    <div class="card" onclick="location.href='/configuracion_usuarios'">
+    <!-- Configuración de Usuarios con submenú -->
+    <div class="card" onclick="toggleSubmenu()">
         <h3>Configuración ⚙️</h3>
-        <p>Ges
+        <p>Gestión de cuentas y contraseñas</p>
+        <div class="submenu" id="configMenu">
+            <button onclick="location.href='/crear_usuario'">Crear Usuario</button>
+            <button onclick="location.href='/cambiar_password'">Cambiar Contraseña</button>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
 
 
