@@ -11,6 +11,9 @@ USERS = {
 # Memoria temporal para visitantes
 VISITORS = []
 
+# Memoria temporal para contratistas
+CONTRACTORS = []
+
 
 # ------------------------
 #       LOGIN
@@ -73,7 +76,7 @@ def registro():
 
 
 # ------------------------
-#     REGISTRAR SALIDA
+#     REGISTRAR SALIDA VISITANTE
 # ------------------------
 @app.route("/salida/<int:index>")
 def salida(index):
@@ -82,9 +85,45 @@ def salida(index):
 
 
 # ------------------------
+#   REGISTRO DE CONTRATISTAS
+# ------------------------
+@app.route("/contratistas", methods=["GET", "POST"])
+def contratistas():
+
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        cedula = request.form["cedula"]
+        empresa = request.form["empresa"]
+        responsable = request.form["responsable"]
+        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        contratista = {
+            "nombre": nombre,
+            "cedula": cedula,
+            "empresa": empresa,
+            "responsable": responsable,
+            "hora_ingreso": hora_ingreso,
+            "hora_salida": None
+        }
+
+        CONTRACTORS.append(contratista)
+
+        return render_template("contractor_success.html", contratista=contratista)
+
+    return render_template("contractor_form.html", contractors=CONTRACTORS)
+
+
+# ------------------------
+#     REGISTRAR SALIDA CONTRATISTA
+# ------------------------
+@app.route("/salida_contratista/<int:index>")
+def salida_contratista(index):
+    CONTRACTORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return redirect(url_for("contratistas"))
+
+
+# ------------------------
 #       RUN LOCAL
 # ------------------------
 if __name__ == "__main__":
     app.run(debug=True)
-
-
