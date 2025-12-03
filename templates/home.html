@@ -4,35 +4,81 @@
     <meta charset="UTF-8">
     <title>Menú Principal - Holcim</title>
 
-    <!-- Fuente moderna -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
     <style>
         body {
             margin: 0;
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #003e70, #007acc);
+            font-family: Arial, sans-serif;
+            background: #f4f4f4; /* Fondo claro para que todo se vea */
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #333;
-            overflow: hidden;
         }
 
-        /* Fondo animado suave */
-        .background-animation {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
-            animation: pulse 6s ease-in-out infinite alternate;
-            z-index: 0;
+        .menu-box {
+            background: white;
+            padding: 35px;
+            width: 420px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            color: black; /* Texto siempre visible */
         }
 
-        @keyframes pulse {
-            from { transform: scale(1); opacity: 0.6; }
-            to   { transform: scale(1.
+        img {
+            width: 140px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            color: #003e70; 
+            font-size: 22px;
+            margin-bottom: 25px;
+        }
+
+        /* Botones siempre visibles */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            background: #005baa;
+            color: white !important; /* Asegurar color blanco */
+            text-decoration: none;
+            font-size: 17px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #004b8c;
+        }
+
+        .btn-red {
+            background: #b00020;
+        }
+
+        .btn-red:hover {
+            background: #8c001a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-box">
+
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Holcim_logo_2021.svg/2560px-Holcim_logo_2021.svg.png" alt="Holcim">
+
+        <h2>Menú Principal</h2>
+
+        <a class="btn" href="/registro">Registro de Visitantes</a>
+        <a class="btn" href="/contratistas">Registro de Contratistas</a>
+        <a class="btn" href="/proveedores">Registro de Proveedores</a>
+        <a class="btn btn-red" href="/">Cerrar Sesión</a>
+
+    </div>
+
+</body>
+</html>
+
 
