@@ -1,27 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Login Holcim</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <meta charset="UTF-8">
+    <title>Login - Holcim Costa Rica</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #e5e5e5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 18px;
+            background: #005baa;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #004b8c;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        img {
+            width: 110px;
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="login-box">
-    <h2>Sistema de Registro Holcim Costa Rica</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Holcim_logo_2021.svg/512px-Holcim_logo_2021.svg.png">
 
-    {% if error %}
-    <p class="error">{{ error }}</p>
-    {% endif %}
+    <h2>Ingreso al Sistema</h2>
 
-    <form action="/auth" method="POST">
-        <label>Usuario</label>
-        <input type="text" name="username" required>
-
-        <label>Contraseña</label>
-        <input type="password" name="password" required>
+    <form method="POST" action="/auth">
+        <input type="text" name="username" placeholder="Usuario" required>
+        <input type="password" name="password" placeholder="Contraseña" required>
 
         <button type="submit">Ingresar</button>
     </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
 </div>
 
 </body>
