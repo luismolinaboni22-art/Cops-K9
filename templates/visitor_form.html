@@ -1,60 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Registro de Visitantes</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .contenedor { display: flex; justify-content: space-between; align-items: center; }
+        .contador { background: #004884; color: white; padding: 10px 20px; border-radius: 8px; font-size: 22px; font-weight: bold; }
+        form { margin-top: 20px; width: 400px; }
+        input, select { width: 100%; padding: 8px; margin-bottom: 10px; }
+        table { width: 100%; margin-top: 30px; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+    </style>
 </head>
 <body>
 
-<div class="header">Registro de Visitantes</div>
+<div class="contenedor">
+    <h2>Registro de Visitantes</h2>
 
-<div class="container">
-
+    <!-- CONTADOR A LA DERECHA -->
     <div class="contador">
-        Visitantes dentro: {{ dentro }}
+        Visitantes dentro: {{ visitors|selectattr("hora_salida", "equalto", None)|list|length }}
     </div>
+</div>
 
-    <form action="/registro" method="POST">
-        <input type="text" name="nombre" placeholder="Nombre completo" required>
-        <input type="text" name="cedula" placeholder="Cédula" required>
-        <input type="text" name="empresa" placeholder="Empresa" required>
-        <input type="text" name="responsable" placeholder="Responsable de ingreso" required>
-        <input type="text" name="placa" placeholder="Placa" required>
-        <input type="text" name="motivo" placeholder="Motivo" required>
+<form action="/registro" method="POST">
+    <input type="text" name="nombre" placeholder="Nombre" required>
+    <input type="text" name="cedula" placeholder="Cédula" required>
+    <input type="text" name="empresa" placeholder="Empresa" required>
+    <input type="text" name="responsable" placeholder="Responsable de ingreso" required>
+    <input type="text" name="placa" placeholder="Placa" required>
+    <input type="text" name="motivo" placeholder="Motivo" required>
 
-        <button class="btn">Registrar Ingreso</button>
-    </form>
+    <button type="submit">Registrar ingreso</button>
+</form>
 
-    <h3>Visitantes Registrados</h3>
+<h3>Visitantes en sitio</h3>
 
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>Cédula</th>
-            <th>Ingreso</th>
-            <th>Salida</th>
-            <th></th>
-        </tr>
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Cédula</th>
+        <th>Empresa</th>
+        <th>Responsable</th>
+        <th>Placa</th>
+        <th>Motivo</th>
+        <th>Hora Ingreso</th>
+        <th>Salida</th>
+    </tr>
 
-        {% for v in visitors %}
+    {% for v in visitors %}
         <tr>
             <td>{{ v.nombre }}</td>
             <td>{{ v.cedula }}</td>
+            <td>{{ v.empresa }}</td>
+            <td>{{ v.responsable }}</td>
+            <td>{{ v.placa }}</td>
+            <td>{{ v.motivo }}</td>
             <td>{{ v.hora_ingreso }}</td>
-            <td>{{ v.hora_salida or "-" }}</td>
+
             <td>
-                {% if v.hora_salida is none %}
-                <a href="/salida/{{ loop.index0 }}" class="btn-danger btn">Salida</a>
+                {% if v.hora_salida %}
+                    {{ v.hora_salida }}
+                {% else %}
+                    <a href="/salida/{{ loop.index0 }}">Registrar salida</a>
                 {% endif %}
             </td>
         </tr>
-        {% endfor %}
-    </table>
+    {% endfor %}
 
-    <a href="/home" class="btn" style="margin-top:20px;">Volver al Menú</a>
-
-</div>
+</table>
 
 </body>
 </html>
+
 
