@@ -40,28 +40,19 @@ def home():
 
 
 # ------------------------
-#   REGISTRO DE VISITANTES
+#   FORMULARIO Y LISTA
 # ------------------------
 @app.route("/registro", methods=["GET", "POST"])
 def registro():
-
     if request.method == "POST":
-        nombre = request.form["nombre"]
-        cedula = request.form["cedula"]
-        empresa = request.form["empresa"]
-        responsable = request.form["responsable"]
-        placa = request.form["placa"]
-        motivo = request.form["motivo"]
-        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         visitante = {
-            "nombre": nombre,
-            "cedula": cedula,
-            "empresa": empresa,
-            "responsable": responsable,
-            "placa": placa,
-            "motivo": motivo,
-            "hora_ingreso": hora_ingreso,
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "placa": request.form["placa"],
+            "motivo": request.form["motivo"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "hora_salida": None
         }
 
@@ -69,11 +60,13 @@ def registro():
 
         return render_template("visitor_success.html", visitante=visitante)
 
-    # ➜ CONTAR VISITANTES DENTRO
-    cantidad_dentro = sum(1 for v in VISITORS if v["hora_salida"] is None)
+    visitantes_dentro = len([v for v in VISITORS if v["hora_salida"] is None])
 
-    return render_template("visitor_form.html", visitors=VISITORS, cantidad_dentro=cantidad_dentro)
-
+    return render_template(
+        "visitor_form.html",
+        visitors=VISITORS,
+        dentro=visitantes_dentro
+    )
 
 
 # ------------------------
@@ -85,8 +78,6 @@ def salida(index):
     return redirect(url_for("registro"))
 
 
-# ------------------------
-#       RUN LOCAL
-# ------------------------
 if __name__ == "__main__":
     app.run(debug=True)
+
