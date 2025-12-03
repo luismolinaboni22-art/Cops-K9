@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <meta charset="UTF-8">
     <title>Registro de Proveedores</title>
     <style>
