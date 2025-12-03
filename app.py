@@ -3,17 +3,19 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Usuario quemado para prueba
+# ------------------------
+#   USUARIOS
+# ------------------------
 USERS = {
     "CoordinadorHolcim": "123"
 }
 
-# Memoria temporal para visitantes
+# ------------------------
+#   MEMORIAS TEMPORALES
+# ------------------------
 VISITORS = []
-
-# Memoria temporal para contratistas
 CONTRACTORS = []
-
+PROVIDERS = []
 
 # ------------------------
 #       LOGIN
@@ -49,22 +51,14 @@ def home():
 def registro():
 
     if request.method == "POST":
-        nombre = request.form["nombre"]
-        cedula = request.form["cedula"]
-        empresa = request.form["empresa"]
-        responsable = request.form["responsable"]
-        placa = request.form["placa"]
-        motivo = request.form["motivo"]
-        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         visitante = {
-            "nombre": nombre,
-            "cedula": cedula,
-            "empresa": empresa,
-            "responsable": responsable,
-            "placa": placa,
-            "motivo": motivo,
-            "hora_ingreso": hora_ingreso,
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "placa": request.form["placa"],
+            "motivo": request.form["motivo"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "hora_salida": None
         }
 
@@ -75,9 +69,6 @@ def registro():
     return render_template("visitor_form.html", visitors=VISITORS)
 
 
-# ------------------------
-#     REGISTRAR SALIDA VISITANTE
-# ------------------------
 @app.route("/salida/<int:index>")
 def salida(index):
     VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -91,18 +82,12 @@ def salida(index):
 def contratistas():
 
     if request.method == "POST":
-        nombre = request.form["nombre"]
-        cedula = request.form["cedula"]
-        empresa = request.form["empresa"]
-        responsable = request.form["responsable"]
-        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         contratista = {
-            "nombre": nombre,
-            "cedula": cedula,
-            "empresa": empresa,
-            "responsable": responsable,
-            "hora_ingreso": hora_ingreso,
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "hora_salida": None
         }
 
@@ -113,15 +98,10 @@ def contratistas():
     return render_template("contractor_form.html", contractors=CONTRACTORS)
 
 
-# ------------------------
-#     REGISTRAR SALIDA CONTRATISTA
-# ------------------------
 @app.route("/salida_contratista/<int:index>")
 def salida_contratista(index):
     CONTRACTORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     return redirect(url_for("contratistas"))
-# Memoria temporal para proveedores
-PROVIDERS = []
 
 
 # ------------------------
@@ -131,20 +111,13 @@ PROVIDERS = []
 def proveedores():
 
     if request.method == "POST":
-        nombre = request.form["nombre"]
-        cedula = request.form["cedula"]
-        empresa = request.form["empresa"]
-        responsable = request.form["responsable"]
-        motivo = request.form["motivo"]
-        hora_ingreso = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
         proveedor = {
-            "nombre": nombre,
-            "cedula": cedula,
-            "empresa": empresa,
-            "responsable": responsable,
-            "motivo": motivo,
-            "hora_ingreso": hora_ingreso,
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "motivo": request.form["motivo"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "hora_salida": None
         }
 
@@ -155,9 +128,6 @@ def proveedores():
     return render_template("provider_form.html", providers=PROVIDERS)
 
 
-# ------------------------
-#     REGISTRAR SALIDA PROVEEDOR
-# ------------------------
 @app.route("/salida_proveedor/<int:index>")
 def salida_proveedor(index):
     PROVIDERS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
