@@ -1,180 +1,60 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Registro de Visitantes - Holcim Costa Rica</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            padding: 20px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            max-width: 900px;
-            margin: auto;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-        }
-
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .main-button {
-            padding: 10px 20px;
-            background: #005baa;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .main-button:hover {
-            background: #004b8c;
-        }
-
-        .counter {
-            font-size: 20px;
-            font-weight: bold;
-            color: #005baa;
-        }
-
-        form input, form select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        form button {
-            margin-top: 15px;
-            padding: 10px;
-            background: #008f39;
-            border: none;
-            width: 100%;
-            color: white;
-            font-size: 16px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        form button:hover {
-            background: #00772f;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 25px;
-        }
-
-        table th, table td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        table th {
-            background: #005baa;
-            color: white;
-        }
-
-        .salida-btn {
-            background: red;
-            padding: 6px 12px;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-
-        .salida-btn:hover {
-            background: darkred;
-        }
-    </style>
+    <title>Registro de Visitantes</title>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
 
+<div class="header">Registro de Visitantes</div>
+
 <div class="container">
 
-    <div class="top-bar">
-        <a href="{{ url_for('home') }}" class="main-button">⬅ Menú Principal</a>
-
-        <div class="counter">
-            Visitantes dentro: {{ visitors|selectattr('hora_salida', 'equalto', None)|list|length }}
-        </div>
+    <div class="contador">
+        Visitantes dentro: {{ dentro }}
     </div>
 
-    <h2>Registro de Visitantes</h2>
+    <form action="/registro" method="POST">
+        <input type="text" name="nombre" placeholder="Nombre completo" required>
+        <input type="text" name="cedula" placeholder="Cédula" required>
+        <input type="text" name="empresa" placeholder="Empresa" required>
+        <input type="text" name="responsable" placeholder="Responsable de ingreso" required>
+        <input type="text" name="placa" placeholder="Placa" required>
+        <input type="text" name="motivo" placeholder="Motivo" required>
 
-    <!-- Formulario -->
-    <form method="POST">
-        <label>Nombre completo:</label>
-        <input type="text" name="nombre" required>
-
-        <label>Cédula:</label>
-        <input type="text" name="cedula" required>
-
-        <label>Empresa:</label>
-        <input type="text" name="empresa" required>
-
-        <label>Responsable de ingreso:</label>
-        <input type="text" name="responsable" required>
-
-        <label>Placa del vehículo:</label>
-        <input type="text" name="placa">
-
-        <label>Motivo de la visita:</label>
-        <input type="text" name="motivo" required>
-
-        <button type="submit">Registrar Ingreso</button>
+        <button class="btn">Registrar Ingreso</button>
     </form>
 
-    <!-- Tabla de visitantes -->
+    <h3>Visitantes Registrados</h3>
+
     <table>
         <tr>
             <th>Nombre</th>
             <th>Cédula</th>
-            <th>Empresa</th>
-            <th>Responsable</th>
-            <th>Placa</th>
-            <th>Motivo</th>
             <th>Ingreso</th>
             <th>Salida</th>
-            <th>Acción</th>
+            <th></th>
         </tr>
 
         {% for v in visitors %}
         <tr>
             <td>{{ v.nombre }}</td>
             <td>{{ v.cedula }}</td>
-            <td>{{ v.empresa }}</td>
-            <td>{{ v.responsable }}</td>
-            <td>{{ v.placa }}</td>
-            <td>{{ v.motivo }}</td>
             <td>{{ v.hora_ingreso }}</td>
-            <td>{{ v.hora_salida if v.hora_salida else "—" }}</td>
+            <td>{{ v.hora_salida or "-" }}</td>
             <td>
-                {% if not v.hora_salida %}
-                <a href="{{ url_for('salida', index=loop.index0) }}" class="salida-btn">Registrar Salida</a>
+                {% if v.hora_salida is none %}
+                <a href="/salida/{{ loop.index0 }}" class="btn-danger btn">Salida</a>
                 {% endif %}
             </td>
         </tr>
         {% endfor %}
     </table>
 
+    <a href="/home" class="btn" style="margin-top:20px;">Volver al Menú</a>
+
 </div>
 
 </body>
 </html>
+
