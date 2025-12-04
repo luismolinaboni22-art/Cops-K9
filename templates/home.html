@@ -8,12 +8,11 @@
         body {
             margin: 0;
             font-family: "Segoe UI", Arial;
-            background: #f3f4f6;
+            background: #f4f5f7;
             display: flex;
             height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 260px;
             background: #003E70;
@@ -21,11 +20,12 @@
             display: flex;
             flex-direction: column;
             padding-top: 25px;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.2);
         }
 
         .sidebar img {
             width: 140px;
-            margin: 0 auto 20px auto;
+            margin: 0 auto 25px auto;
             display: block;
         }
 
@@ -33,10 +33,10 @@
             padding: 15px 25px;
             color: white;
             text-decoration: none;
-            display: block;
             font-size: 16px;
             border-left: 4px solid transparent;
             transition: 0.3s;
+            font-weight: 500;
         }
 
         .sidebar a:hover {
@@ -54,19 +54,18 @@
             background: #8d0000 !important;
         }
 
-        /* Main content */
         .main {
             flex: 1;
             padding: 30px;
+            overflow-y: auto;
         }
 
         .title {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: bold;
             color: #003E70;
         }
 
-        /* Tarjetas */
         .cards {
             margin-top: 35px;
             display: grid;
@@ -78,18 +77,19 @@
             background: white;
             padding: 25px;
             border-radius: 14px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
             transition: 0.25s;
         }
 
         .card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+            box-shadow: 0 10px 18px rgba(0,0,0,0.25);
         }
 
         .card h2 {
             margin: 0;
-            font-size: 45px;
+            font-size: 46px;
+            font-weight: bold;
             color: #005BAA;
             text-align: center;
         }
@@ -97,12 +97,11 @@
         .card p {
             text-align: center;
             margin-top: 10px;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: bold;
             color: #333;
         }
 
-        /* Sección inferior */
         .section {
             margin-top: 40px;
             padding: 25px;
@@ -113,10 +112,10 @@
 
         .section h3 {
             margin: 0 0 15px;
-            font-size: 20px;
+            font-size: 21px;
+            font-weight: bold;
             color: #003E70;
         }
-
     </style>
 </head>
 
@@ -126,10 +125,11 @@
     <div class="sidebar">
         <img src="/static/logo.png" alt="Holcim Logo">
 
-       <a href="/registro"> Registrar Visitante</a>
-<a href="/contratistas"> Registrar Contratista</a>
-<a href="/proveedores"> Registrar Proveedor</a>
-        <a href="/reportes"> Reportes Históricos</a>
+        <a href="/home">🏠 Dashboard</a>
+        <a href="/registro">📝 Registrar Visitante</a>
+        <a href="/contratistas">👷 Registrar Contratista</a>
+        <a href="/proveedores">🚚 Registrar Proveedor</a>
+        <a href="/reportes">📊 Reportes Históricos</a>
 
         <a href="/logout" class="logout">Cerrar Sesión</a>
     </div>
@@ -157,15 +157,17 @@
             </div>
         </div>
 
-        <!-- Sección adicional -->
         <div class="section">
             <h3>Resumen General</h3>
-            <p>Bienvenido al sistema de control de accesos de Holcim Costa Rica.  
-            Esta plataforma permite visualizar en tiempo real los ingresos activos dentro de las instalaciones.</p>
+            <p>
+                Sistema de Control de Ingresos – Holcim Costa Rica.  
+                Aquí puedes monitorear en tiempo real la cantidad de personas dentro de las instalaciones.
+            </p>
         </div>
 
     </div>
 
 </body>
 </html>
+
 
