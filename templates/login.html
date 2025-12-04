@@ -6,63 +6,63 @@
 
     <style>
         body {
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
-            background: #e5e5e5;
+            background: #021f3d; /* Azul corporativo */
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* 🌊 Ondas corporativas animadas */
-        .wave {
+        /* --------- LÍNEAS DINÁMICAS (ANIMACIÓN) --------- */
+        .background-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .line {
             position: absolute;
             width: 200%;
-            height: 40%;
-            left: -50%;
-            background: rgba(0, 91, 170, 0.25); /* azul Holcim suave */
-            border-radius: 50%;
-            animation: waveMove 10s infinite linear;
+            height: 3px;
+            background: linear-gradient(90deg, #0090d0, #6ccb3c);
+            opacity: 0.4;
+            border-radius: 50px;
+            animation: moveLines 8s linear infinite;
         }
 
-        .wave:nth-child(1) {
-            top: 8%;
-            animation-duration: 14s;
-            opacity: 0.35;
+        .line:nth-child(1) { top: 20%; animation-duration: 12s; }
+        .line:nth-child(2) { top: 40%; animation-duration: 9s; }
+        .line:nth-child(3) { top: 60%; animation-duration: 14s; }
+        .line:nth-child(4) { top: 80%; animation-duration: 11s; }
+
+        @keyframes moveLines {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(50%); }
         }
 
-        .wave:nth-child(2) {
-            top: 28%;
-            opacity: 0.22;
-        }
-
-        .wave:nth-child(3) {
-            top: 48%;
-            animation-duration: 11s;
-            opacity: 0.30;
-        }
-
-        @keyframes waveMove {
-            from { transform: translateX(0) rotate(0deg); }
-            to { transform: translateX(25%) rotate(360deg); }
-        }
-
-        /* 🔷 Caja de login estilo corporativo */
+        /* --------- CAJA DE LOGIN --------- */
         .login-box {
-            background: white;
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.12);
             padding: 40px;
             border-radius: 14px;
             width: 360px;
             text-align: center;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.22);
-            position: relative;
-            border-top: 6px solid #005baa; /* azul corporativo */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
         }
 
         h2 {
-            color: #003f73;
+            color: white;
             margin-bottom: 15px;
         }
 
@@ -70,64 +70,68 @@
             width: 100%;
             padding: 12px;
             margin-top: 12px;
-            border: 1px solid #bfbfbf;
+            border: none;
             border-radius: 8px;
-            font-size: 15px;
+            outline: none;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            margin-top: 20px;
-            background: #005baa;
+            margin-top: 18px;
+            background: #0090d0; /* Azul brillante Holcim */
             color: white;
             border: none;
             font-size: 16px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
         }
 
         button:hover {
-            background: #003f73;
-            transform: translateY(-2px);
+            background: #0078ad;
         }
 
         .error {
-            color: #cc0000;
+            color: #ff6b6b;
             margin-top: 10px;
             font-size: 14px;
         }
 
         img {
-            width: 120px;
+            width: 140px;
             margin-bottom: 20px;
         }
     </style>
 </head>
+
 <body>
 
-<div class="wave"></div>
-<div class="wave"></div>
-<div class="wave"></div>
+    <!-- Líneas animadas -->
+    <div class="background-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
 
-<div class="login-box">
+    <!-- Caja de Login -->
+    <div class="login-box">
+        <img src="{{ url_for('static', filename='images/holcim_logo.png') }}" alt="Holcim Logo">
 
-    <img src="/static/images/holcim_logo.png" alt="Holcim">
+        <h2>Ingreso al Sistema</h2>
 
-    <h2>Ingreso al Sistema</h2>
+        <form method="POST" action="/auth">
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
 
-    <form method="POST" action="/auth">
-        <input type="text" name="username" placeholder="Usuario" required>
-        <input type="password" name="password" placeholder="Contraseña" required>
-        <button type="submit">Ingresar</button>
-    </form>
-
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
-</div>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </div>
 
 </body>
 </html>
+
