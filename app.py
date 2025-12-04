@@ -42,6 +42,28 @@ def auth():
 @app.route("/home")
 def home():
     return render_template("home.html")
+@app.route('/home')
+def home():
+    if 'usuario' not in session:
+        return redirect('/')
+
+    from models import db, Visitante, Contratista, Proveedor
+
+    # Contar visitantes dentro
+    visitantes_dentro = Visitante.query.filter(Visitante.hora_salida == None).count()
+
+    # Contar contratistas dentro
+    contratistas_dentro = Contratista.query.filter(Contratista.hora_salida == None).count()
+
+    # Contar proveedores dentro
+    proveedores_dentro = Proveedor.query.filter(Proveedor.hora_salida == None).count()
+
+    return render_template(
+        'home.html',
+        visitantes_dentro=visitantes_dentro,
+        contratistas_dentro=contratistas_dentro,
+        proveedores_dentro=proveedores_dentro
+    )
 
 
 # ------------------------
