@@ -1,190 +1,109 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
+from models import db, User, Visitor, Contractor, Provider
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
+db.init_app(app)
 
-# ------------------------
-#   USUARIOS
-# ------------------------
-USERS = {
-    "CoordinadorHolcim": "123"
-}
 
-# ------------------------
-#   MEMORIAS TEMPORALES
-# ------------------------
-VISITORS = []
-CONTRACTORS = []
-PROVIDERS = []
-
-# ------------------------
-#       LOGIN
-# ------------------------
-@app.route("/")
+# -----------------------
+# LOGIN
+# -----------------------
+@app.route('/', methods=['GET', 'POST'])
 def login():
-    return render_template("login.html")
+    if request.method == 'POST':
+        user = User.query.filter_by(username=request.form['username']).first()
+
+        if user and user.check_password(request.form['password']):
+            session['user'] = user.username
+            return redirect(url_for('home'))
+        else:
+            return render_template('login.html', error="Credenciales incorrectas")
+
+    return render_template('login.html')
 
 
-@app.route("/auth", methods=["POST"])
-def auth():
-    username = request.form.get("username")
-    password = request.form.get("password")
-
-    if username in USERS and USERS[username] == password:
-        return redirect(url_for("home"))
-
-    return render_template("login.html", error="Credenciales incorrectas")
+# -----------------------
+# LOGOUT
+# -----------------------
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 
-# ------------------------
-#   PÁGINA PRINCIPAL
-# ------------------------
-@app.route("/home")
+# -----------------------
+# HOME CON CONTADORES
+# -----------------------
+@app.route('/home')
 def home():
-    return render_template("home.html")
+    if 'user' not in session:
+        return redirect(url_for('login'))
 
+    visitantes_dentro = Visitor.query.filter_by(hora_salida=None).count()
+    contratistas_dentro = Contractor.query.filter_by(hora_salida=None).count()
+    proveedores_dentro = Provider.query.filter_by(hora_salida=None).count()
 
-# ------------------------
-#   REGISTRO DE VISITANTES
-# ------------------------
-@app.route("/registro", methods=["GET", "POST"])
-def registro():
-
-    if request.method == "POST":
-        visitante = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "placa": request.form["placa"],
-            "motivo": request.form["motivo"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        VISITORS.append(visitante)
-
-        return render_template("visitor_success.html", visitante=visitante)
-
-    return render_template("visitor_form.html", visitors=VISITORS)
-
-
-@app.route("/salida/<int:index>")
-def salida(index):
-    VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("registro"))
-
-
-# ------------------------
-#   REGISTRO DE CONTRATISTAS
-# ------------------------
-@app.route("/contratistas", methods=["GET", "POST"])
-def contratistas():
-
-    if request.method == "POST":
-        contratista = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        CONTRACTORS.append(contratista)
-
-        return render_template("contractor_success.html", contratista=contratista)
-
-    return render_template("contractor_form.html", contractors=CONTRACTORS)
-
-
-@app.route("/salida_contratista/<int:index>")
-def salida_contratista(index):
-    CONTRACTORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("contratistas"))
-
-
-# ------------------------
-#   REGISTRO DE PROVEEDORES
-# ------------------------
-@app.route("/proveedores", methods=["GET", "POST"])
-def proveedores():
-
-    if request.method == "POST":
-        proveedor = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "motivo": request.form["motivo"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        PROVIDERS.append(proveedor)
-
-        return render_template("provider_success.html", proveedor=proveedor)
-
-    return render_template("provider_form.html", providers=PROVIDERS)
-
-
-@app.route("/salida_proveedor/<int:index>")
-def salida_proveedor(index):
-    PROVIDERS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("proveedores"))
-# ------------------------
-#       REPORTES
-# ------------------------
-@app.route("/reportes", methods=["GET"])
-def reportes():
     return render_template(
-        "reportes.html",
-        visitantes=VISITORS,
-        contratistas=CONTRACTORS,
-        proveedores=PROVIDERS
+        'home.html',
+        visitantes_dentro=visitantes_dentro,
+        contratistas_dentro=contratistas_dentro,
+        proveedores_dentro=proveedores_dentro
     )
-# ------------------------
-#   CREAR USUARIO
-# ------------------------
-@app.route("/crear_usuario", methods=["GET", "POST"])
-def crear_usuario():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        role = request.form["role"]
-
-        for u in USERS:
-            if u["username"] == username:
-                return render_template("crear_usuario.html", error="Usuario ya existe")
-
-        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
-        USERS.append({"username": username, "password": hashed, "role": role})
-        return render_template("crear_usuario.html", success="Usuario creado exitosamente")
-
-    return render_template("crear_usuario.html")
-
-# ------------------------
-#   CAMBIAR CONTRASEÑA
-# ------------------------
-@app.route("/cambiar_password", methods=["GET", "POST"])
-def cambiar_password():
-    if request.method == "POST":
-        username = request.form["username"]
-        old_pass = request.form["old_password"]
-        new_pass = request.form["new_password"]
-
-        for u in USERS:
-            if u["username"] == username and bcrypt.check_password_hash(u["password"], old_pass):
-                u["password"] = bcrypt.generate_password_hash(new_pass).decode("utf-8")
-                return render_template("cambiar_password.html", success="Contraseña actualizada correctamente")
-        return render_template("cambiar_password.html", error="Usuario o contraseña incorrecta")
-    
-    return render_template("cambiar_password.html")
 
 
-# ------------------------
-#       RUN LOCAL
-# ------------------------
+# -----------------------
+# REGISTRO VISITANTES
+# -----------------------
+@app.route('/visitor', methods=['GET', 'POST'])
+def visitor_form():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        nuevo = Visitor(
+            nombre=request.form['nombre'],
+            cedula=request.form['cedula'],
+            empresa=request.form['empresa'],
+            persona_visita=request.form['persona_visita'],
+            motivo=request.form['motivo'],
+            placa=request.form['placa'],
+            hora_ingreso=datetime.now()
+        )
+        db.session.add(nuevo)
+        db.session.commit()
+        return redirect(url_for('visitor_success'))
+
+    return render_template('visitor_form.html')
+
+
+@app.route('/visitor_success')
+def visitor_success():
+    return render_template('visitor_success.html')
+
+
+# -----------------------
+# REPORTES (INGRESO + SALIDA)
+# -----------------------
+@app.route('/reportes')
+def reportes():
+    visitantes = Visitor.query.all()
+    contratistas = Contractor.query.all()
+    proveedores = Provider.query.all()
+
+    return render_template(
+        'reportes.html',
+        visitantes=visitantes,
+        contratistas=contratistas,
+        proveedores=proveedores
+    )
+
+
+# -----------------------
+# MAIN
+# -----------------------
 if __name__ == "__main__":
     app.run(debug=True)
 
