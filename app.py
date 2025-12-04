@@ -41,7 +41,16 @@ def auth():
 # ------------------------
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    visitantes_dentro = sum(1 for v in VISITORS if v["hora_salida"] is None)
+    contratistas_dentro = sum(1 for c in CONTRACTORS if c["hora_salida"] is None)
+    proveedores_dentro = sum(1 for p in PROVIDERS if p["hora_salida"] is None)
+
+    return render_template(
+        "home.html",
+        visitantes_dentro=visitantes_dentro,
+        contratistas_dentro=contratistas_dentro,
+        proveedores_dentro=proveedores_dentro
+    )
 
 
 # ------------------------
