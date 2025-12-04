@@ -39,9 +39,6 @@ def auth():
 # ------------------------
 #   PÁGINA PRINCIPAL
 # ------------------------
-@app.route("/home")
-def home():
-    return render_template("home.html")
 @app.route('/home')
 def home():
     if 'usuario' not in session:
