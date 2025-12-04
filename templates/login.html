@@ -12,8 +12,17 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
         }
 
+        /* --- Animación de fondo --- */
+        @keyframes fade-bg {
+            from { background-color: #dcdcdc; }
+            to { background-color: #e5e5e5; }
+        }
+        body { animation: fade-bg 1.5s ease-in-out; }
+
+        /* --- Caja del login --- */
         .login-box {
             background: white;
             padding: 35px;
@@ -21,10 +30,35 @@
             width: 350px;
             text-align: center;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            
+            /* Animación de entrada */
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideFadeIn 1.2s forwards;
+        }
+
+        /* --- Animación slide + fade --- */
+        @keyframes slideFadeIn {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
             color: #333;
+        }
+
+        img {
+            width: 110px;
+            margin-bottom: 15px;
+
+            /* Animación de zoom suave */
+            animation: logoZoom 1.2s ease-out;
+        }
+
+        /* --- Animación del logo --- */
+        @keyframes logoZoom {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         input {
@@ -33,6 +67,14 @@
             margin-top: 12px;
             border: 1px solid #ccc;
             border-radius: 8px;
+            transition: 0.3s ease;
+        }
+
+        /* Input animado */
+        input:focus {
+            border-color: #005baa;
+            box-shadow: 0 0 5px rgba(0, 91, 170, 0.6);
+            transform: scale(1.02);
         }
 
         button {
@@ -45,21 +87,26 @@
             font-size: 16px;
             border-radius: 8px;
             font-weight: bold;
+            transition: 0.3s ease;
         }
 
+        /* Hover animado del botón */
         button:hover {
             background: #004b8c;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
 
         .error {
             color: red;
             margin-top: 10px;
             font-size: 14px;
+            animation: fadeError 0.8s;
         }
 
-        img {
-            width: 110px;
-            margin-bottom: 15px;
+        @keyframes fadeError {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
