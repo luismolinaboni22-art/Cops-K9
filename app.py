@@ -1,116 +1,192 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Panel Principal - Holcim</title>
+from flask import Flask, render_template, request, redirect, url_for
+from datetime import datetime
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f5;
-            margin: 0;
+app = Flask(__name__)
+
+# ------------------------
+#   USUARIOS
+# ------------------------
+USERS = {
+    "CoordinadorHolcim": "123"
+}
+
+# ------------------------
+#   MEMORIAS TEMPORALES
+# ------------------------
+VISITORS = []
+CONTRACTORS = []
+PROVIDERS = []
+
+# ------------------------
+#       LOGIN
+# ------------------------
+@app.route("/")
+def login():
+    return render_template("login.html")
+
+
+@app.route("/auth", methods=["POST"])
+def auth():
+    username = request.form.get("username")
+    password = request.form.get("password")
+
+    if username in USERS and USERS[username] == password:
+        return redirect(url_for("home"))
+
+    return render_template("login.html", error="Credenciales incorrectas")
+
+
+# ------------------------
+#   PÁGINA PRINCIPAL
+# ------------------------
+@app.route("/home")
+def home():
+    return render_template("home.html")
+
+
+# ------------------------
+#   REGISTRO DE VISITANTES
+# ------------------------
+@app.route("/registro", methods=["GET", "POST"])
+def registro():
+
+    if request.method == "POST":
+        visitante = {
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "placa": request.form["placa"],
+            "motivo": request.form["motivo"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "hora_salida": None
         }
 
-        .top-bar {
-            background: #003e70;
-            padding: 15px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        VISITORS.append(visitante)
+
+        return render_template("visitor_success.html", visitante=visitante)
+
+    return render_template("visitor_form.html", visitors=VISITORS)
+
+
+@app.route("/salida/<int:index>")
+def salida(index):
+    VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return redirect(url_for("registro"))
+
+
+# ------------------------
+#   REGISTRO DE CONTRATISTAS
+# ------------------------
+@app.route("/contratistas", methods=["GET", "POST"])
+def contratistas():
+
+    if request.method == "POST":
+        contratista = {
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "hora_salida": None
         }
 
-        .dashboard {
-            display: flex;
-            justify-content: center;
-            margin-top: 40px;
-            gap: 25px;
+        CONTRACTORS.append(contratista)
+
+        return render_template("contractor_success.html", contratista=contratista)
+
+    return render_template("contractor_form.html", contractors=CONTRACTORS)
+
+
+@app.route("/salida_contratista/<int:index>")
+def salida_contratista(index):
+    CONTRACTORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return redirect(url_for("contratistas"))
+
+
+# ------------------------
+#   REGISTRO DE PROVEEDORES
+# ------------------------
+@app.route("/proveedores", methods=["GET", "POST"])
+def proveedores():
+
+    if request.method == "POST":
+        proveedor = {
+            "nombre": request.form["nombre"],
+            "cedula": request.form["cedula"],
+            "empresa": request.form["empresa"],
+            "responsable": request.form["responsable"],
+            "motivo": request.form["motivo"],
+            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "hora_salida": None
         }
 
-        .card {
-            background: white;
-            width: 260px;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            text-align: center;
-        }
+        PROVIDERS.append(proveedor)
 
-        .card h2 {
-            margin: 0;
-            font-size: 38px;
-            color: #003e70;
-        }
+        return render_template("provider_success.html", proveedor=proveedor)
 
-        .card p {
-            font-size: 18px;
-            margin-top: 10px;
-            font-weight: bold;
-            color: #555;
-        }
+    return render_template("provider_form.html", providers=PROVIDERS)
 
-        .btn-menu {
-            display: block;
-            width: 300px;
-            margin: 40px auto;
-            padding: 15px;
-            background: #005baa;
-            color: white;
-            text-align: center;
-            border-radius: 8px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
-        }
 
-        .btn-menu:hover {
-            background: #004682;
-        }
+@app.route("/salida_proveedor/<int:index>")
+def salida_proveedor(index):
+    PROVIDERS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return redirect(url_for("proveedores"))
+# ------------------------
+#       REPORTES
+# ------------------------
+@app.route("/reportes", methods=["GET"])
+def reportes():
+    return render_template(
+        "reportes.html",
+        visitantes=VISITORS,
+        contratistas=CONTRACTORS,
+        proveedores=PROVIDERS
+    )
+# ------------------------
+#   CREAR USUARIO
+# ------------------------
+@app.route("/crear_usuario", methods=["GET", "POST"])
+def crear_usuario():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        role = request.form["role"]
 
-        .logout-btn {
-            background: red;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        for u in USERS:
+            if u["username"] == username:
+                return render_template("crear_usuario.html", error="Usuario ya existe")
 
-        .logout-btn:hover {
-            background: #a30000;
-        }
-    </style>
-</head>
+        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
+        USERS.append({"username": username, "password": hashed, "role": role})
+        return render_template("crear_usuario.html", success="Usuario creado exitosamente")
 
-<body>
+    return render_template("crear_usuario.html")
 
-    <div class="top-bar">
-        <div>Sistema Holcim Costa Rica</div>
-        <a class="logout-btn" href="/logout">Cerrar Sesión</a>
-    </div>
+# ------------------------
+#   CAMBIAR CONTRASEÑA
+# ------------------------
+@app.route("/cambiar_password", methods=["GET", "POST"])
+def cambiar_password():
+    if request.method == "POST":
+        username = request.form["username"]
+        old_pass = request.form["old_password"]
+        new_pass = request.form["new_password"]
 
-    <div class="dashboard">
+        for u in USERS:
+            if u["username"] == username and bcrypt.check_password_hash(u["password"], old_pass):
+                u["password"] = bcrypt.generate_password_hash(new_pass).decode("utf-8")
+                return render_template("cambiar_password.html", success="Contraseña actualizada correctamente")
+        return render_template("cambiar_password.html", error="Usuario o contraseña incorrecta")
+    
+    return render_template("cambiar_password.html")
 
-        <div class="card">
-            <h2>{{ visitantes_dentro }}</h2>
-            <p>Visitantes dentro</p>
-        </div>
 
-        <div class="card">
-            <h2>{{ contratistas_dentro }}</h2>
-            <p>Contratistas dentro</p>
-        </div>
+# ------------------------
+#       RUN LOCAL
+# ------------------------
+if __name__ == "__main__":
+    app.run(debug=True)
 
-        <div class="card">
-            <h2>{{ proveedores_dentro }}</h2>
-            <p>Proveedores dentro</p>
-        </div>
 
-    </div>
-
-    <a class="btn-menu" href="/visitor">Registrar Visitante</a>
-    <a class="btn-menu" href="/reportes">Reportes Históricos</a>
-
-</body>
-</html>
 
