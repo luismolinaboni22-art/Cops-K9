@@ -1,225 +1,117 @@
-from flask import Flask, render_template, request, redirect, url_for
-from datetime import datetime
-
-app = Flask(__name__)
-
-# ------------------------
-#   USUARIOS
-# ------------------------
-USERS = {
-    "CoordinadorHolcim": "123"
-}
-
-# ------------------------
-#   MEMORIAS TEMPORALES
-# ------------------------
-VISITORS = []
-CONTRACTORS = []
-PROVIDERS = []
-
-# ------------------------
-#       LOGIN
-# ------------------------
-@app.route("/")
-def login():
-    return render_template("login.html")
-
-
-@app.route("/auth", methods=["POST"])
-def auth():
-    username = request.form.get("username")
-    password = request.form.get("password")
-
-    if username in USERS and USERS[username] == password:
-        return redirect(url_for("home"))
-
-    return render_template("login.html", error="Credenciales incorrectas")
-
-
-# ------------------------
-#   PÁGINA PRINCIPAL
-# ------------------------
-@app.route("/home")
-def home():
-    visitantes_dentro = sum(1 for v in VISITORS if v["hora_salida"] is None)
-    contratistas_dentro = sum(1 for c in CONTRACTORS if c["hora_salida"] is None)
-    proveedores_dentro = sum(1 for p in PROVIDERS if p["hora_salida"] is None)
-
-    return render_template(
-        "home.html",
-        visitantes_dentro=visitantes_dentro,
-        contratistas_dentro=contratistas_dentro,
-        proveedores_dentro=proveedores_dentro
-    )
-
-
-# ------------------------
-#   REGISTRO DE VISITANTES
-# ------------------------
-@app.route("/registro", methods=["GET", "POST"])
-def registro():
-
-    if request.method == "POST":
-        visitante = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "placa": request.form["placa"],
-            "motivo": request.form["motivo"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        VISITORS.append(visitante)
-
-        return render_template("visitor_success.html", visitante=visitante)
-
-    return render_template("visitor_form.html", visitors=VISITORS)
-
-
-@app.route("/salida/<int:index>")
-def salida(index):
-    VISITORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("registro"))
-
-
-# ------------------------
-#   REGISTRO DE CONTRATISTAS
-# ------------------------
-@app.route("/contratistas", methods=["GET", "POST"])
-def contratistas():
-
-    if request.method == "POST":
-        contratista = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        CONTRACTORS.append(contratista)
-
-        return render_template("contractor_success.html", contratista=contratista)
-
-    return render_template("contractor_form.html", contractors=CONTRACTORS)
-
-
-@app.route("/salida_contratista/<int:index>")
-def salida_contratista(index):
-    CONTRACTORS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("contratistas"))
-
-
-# ------------------------
-#   REGISTRO DE PROVEEDORES
-# ------------------------
-@app.route("/proveedores", methods=["GET", "POST"])
-def proveedores():
-
-    if request.method == "POST":
-        proveedor = {
-            "nombre": request.form["nombre"],
-            "cedula": request.form["cedula"],
-            "empresa": request.form["empresa"],
-            "responsable": request.form["responsable"],
-            "motivo": request.form["motivo"],
-            "hora_ingreso": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "hora_salida": None
-        }
-
-        PROVIDERS.append(proveedor)
-
-        return render_template("provider_success.html", proveedor=proveedor)
-
-    return render_template("provider_form.html", providers=PROVIDERS)
-
-
-@app.route("/salida_proveedor/<int:index>")
-def salida_proveedor(index):
-    PROVIDERS[index]["hora_salida"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    return redirect(url_for("proveedores"))
-# ------------------------
-#       REPORTES
-# ------------------------
-@app.route("/reportes", methods=["GET"])
-def reportes():
-    return render_template(
-        "reportes.html",
-        visitantes=VISITORS,
-        contratistas=CONTRACTORS,
-        proveedores=PROVIDERS
-    )
-# ------------------------
-#   CREAR USUARIO
-# ------------------------
-@app.route("/crear_usuario", methods=["GET", "POST"])
-def crear_usuario():
-    if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
-        role = request.form["role"]
-
-        for u in USERS:
-            if u["username"] == username:
-                return render_template("crear_usuario.html", error="Usuario ya existe")
-
-        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
-        USERS.append({"username": username, "password": hashed, "role": role})
-        return render_template("crear_usuario.html", success="Usuario creado exitosamente")
-
-    return render_template("crear_usuario.html")
-
-# ------------------------
-#   CAMBIAR CONTRASEÑA
-# ------------------------
-@app.route("/cambiar_password", methods=["GET", "POST"])
-def cambiar_password():
-    if request.method == "POST":
-        username = request.form["username"]
-        old_pass = request.form["old_password"]
-        new_pass = request.form["new_password"]
-
-        for u in USERS:
-            if u["username"] == username and bcrypt.check_password_hash(u["password"], old_pass):
-                u["password"] = bcrypt.generate_password_hash(new_pass).decode("utf-8")
-                return render_template("cambiar_password.html", success="Contraseña actualizada correctamente")
-        return render_template("cambiar_password.html", error="Usuario o contraseña incorrecta")
-    
-    return render_template("cambiar_password.html")
+# ---------------------------------------------------
+# FORMULARIO DE REGISTRO
+# ---------------------------------------------------
 @app.route('/contact_form', methods=['GET', 'POST'])
 def contact_form():
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        extension = request.form['extension']
-        canal_radio = request.form['canal_radio']
-        correo = request.form['correo']
-
-        nuevo_contacto = Contact(
-            nombre=nombre,
-            extension=extension,
-            canal_radio=canal_radio,
-            correo=correo
+        nuevo = Contact(
+            nombre=request.form['nombre'],
+            extension=request.form['extension'],
+            canal_radio=request.form['canal_radio'],
+            correo=request.form['correo']
         )
-        db.session.add(nuevo_contacto)
+        db.session.add(nuevo)
         db.session.commit()
-
-        return redirect(url_for('contact_success'))
-
+        return redirect(url_for('contact_list'))
     return render_template('contact_form.html')
 
-@app.route('/contact_success')
-def contact_success():
-    return render_template('contact_success.html')
+
+# ---------------------------------------------------
+# LISTA DE CONTACTOS + BÚSQUEDA
+# ---------------------------------------------------
+@app.route('/contact_list')
+def contact_list():
+    query = request.args.get("q", "")
+    if query:
+        contactos = Contact.query.filter(
+            (Contact.nombre.ilike(f"%{query}%")) |
+            (Contact.extension.ilike(f"%{query}%"))
+        ).all()
+    else:
+        contactos = Contact.query.all()
+
+    return render_template("contact_list.html", contactos=contactos, q=query)
 
 
-# ------------------------
-#       RUN LOCAL
-# ------------------------
-if __name__ == "__main__":
-    app.run(debug=True)
+# ---------------------------------------------------
+# EDITAR
+# ---------------------------------------------------
+@app.route("/contact_edit/<int:id>", methods=["GET", "POST"])
+def contact_edit(id):
+    contacto = Contact.query.get_or_404(id)
+
+    if request.method == "POST":
+        contacto.nombre = request.form['nombre']
+        contacto.extension = request.form['extension']
+        contacto.canal_radio = request.form['canal_radio']
+        contacto.correo = request.form['correo']
+
+        db.session.commit()
+        return redirect(url_for("contact_list"))
+
+    return render_template("contact_edit.html", contacto=contacto)
+
+
+# ---------------------------------------------------
+# ELIMINAR
+# ---------------------------------------------------
+@app.route("/contact_delete/<int:id>")
+def contact_delete(id):
+    contacto = Contact.query.get_or_404(id)
+    db.session.delete(contacto)
+    db.session.commit()
+    return redirect(url_for("contact_list"))
+
+
+# ---------------------------------------------------
+# EXPORTAR A EXCEL
+# ---------------------------------------------------
+@app.route('/contact_export_excel')
+def contact_export_excel():
+    contactos = Contact.query.all()
+
+    df = pd.DataFrame([
+        [c.nombre, c.extension, c.canal_radio, c.correo]
+        for c in contactos
+    ], columns=['Nombre', 'Extensión', 'Canal Radio', 'Correo'])
+
+    file_path = "contactos.xlsx"
+    df.to_excel(file_path, index=False)
+
+    return send_file(file_path, as_attachment=True)
+
+
+# ---------------------------------------------------
+# EXPORTAR A PDF
+# ---------------------------------------------------
+from reportlab.pdfgen import canvas
+
+@app.route('/contact_export_pdf')
+def contact_export_pdf():
+    contactos = Contact.query.all()
+    file_path = "contactos.pdf"
+
+    c = canvas.Canvas(file_path)
+    y = 800
+
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(50, y, "Lista de Contactos")
+    y -= 40
+
+    c.setFont("Helvetica", 10)
+
+    for cont in contactos:
+        c.drawString(50, y, 
+            f"{cont.nombre} | Ext: {cont.extension} | Radio: {cont.canal_radio} | {cont.correo}"
+        )
+        y -= 20
+        if y < 50:
+            c.showPage()
+            y = 800
+
+    c.save()
+
+    return send_file(file_path, as_attachment=True)
 
 
 
