@@ -189,6 +189,30 @@ def cambiar_password():
         return render_template("cambiar_password.html", error="Usuario o contraseña incorrecta")
     
     return render_template("cambiar_password.html")
+@app.route('/contact_form', methods=['GET', 'POST'])
+def contact_form():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        extension = request.form['extension']
+        canal_radio = request.form['canal_radio']
+        correo = request.form['correo']
+
+        nuevo_contacto = Contact(
+            nombre=nombre,
+            extension=extension,
+            canal_radio=canal_radio,
+            correo=correo
+        )
+        db.session.add(nuevo_contacto)
+        db.session.commit()
+
+        return redirect(url_for('contact_success'))
+
+    return render_template('contact_form.html')
+
+@app.route('/contact_success')
+def contact_success():
+    return render_template('contact_success.html')
 
 
 # ------------------------
