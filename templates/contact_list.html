@@ -1,0 +1,39 @@
+<h2>Directorio de Contactos</h2>
+
+<form method="GET" action="/contact_list">
+    <input type="text" name="q" placeholder="Buscar por nombre o extensión" value="{{ q }}">
+    <button type="submit">Buscar</button>
+</form>
+
+<br>
+
+<a href="/contact_export_excel">📄 Exportar a Excel</a> |
+<a href="/contact_export_pdf">📕 Exportar a PDF</a>
+
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Nombre</th>
+        <th>Extensión</th>
+        <th>Canal Radio</th>
+        <th>Correo</th>
+        <th>Acciones</th>
+    </tr>
+
+    {% for c in contactos %}
+    <tr>
+        <td>{{ c.nombre }}</td>
+        <td>{{ c.extension }}</td>
+        <td>{{ c.canal_radio }}</td>
+        <td>{{ c.correo }}</td>
+        <td>
+            <a href="/contact_edit/{{ c.id }}">Editar</a> |
+            <a href="/contact_delete/{{ c.id }}" onclick="return confirm('¿Eliminar contacto?')">Eliminar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<a href="/contact_form">Registrar nuevo contacto</a>
