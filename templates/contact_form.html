@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Contacto</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <h2>Registrar Nuevo Contacto</h2>
+
+    <form action="/contact_form" method="POST">
+
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required>
+
+        <label>Extensión Telefónica:</label>
+        <input type="text" name="extension" required>
+
+        <label>Canal de Radio:</label>
+        <input type="text" name="canal_radio" required>
+
+        <label>Correo Electrónico:</label>
+        <input type="email" name="correo" required>
+
+        <button type="submit">Guardar Contacto</button>
+    </form>
+
+    <br>
+    <a href="/home"><button>Volver al Menú</button></a>
+
+</body>
+</html>
