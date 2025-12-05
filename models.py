@@ -11,3 +11,13 @@ class Visitor(db.Model):
     placa = db.Column(db.String(20))
     hora_ingreso = db.Column(db.DateTime, default=datetime.utcnow)
     hora_salida = db.Column(db.DateTime, nullable=True)  # <-- aquí la salida
+class Contact(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    extension = db.Column(db.String(20), nullable=False)
+    canal_radio = db.Column(db.String(50), nullable=False)
+    correo = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f'<Contact {self.nombre}>'
+
