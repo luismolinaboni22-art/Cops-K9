@@ -1,222 +1,85 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Registro de Visitantes - Holcim</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Visitante Registrado</title>
 
-<style>
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
 
-    :root {
-        --holcim-blue-dark: #003E70;
-        --holcim-blue: #005BAA;
-        --background: #F4F5F7;
-    }
+        .box {
+            background: white;
+            padding: 25px 35px;
+            border-radius: 12px;
+            width: 450px;
+            margin: 80px auto;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
 
-    body {
-        font-family: "Segoe UI", Arial;
-        background: var(--background);
-        margin: 0;
-        padding: 0;
-    }
+        h1 {
+            color: #005baa;
+            margin-bottom: 10px;
+        }
 
-    /* Encabezado superior */
-    .header {
-        background: var(--holcim-blue-dark);
-        color: white;
-        padding: 15px 25px;
-        font-size: 22px;
-        font-weight: bold;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        display: flex;
-        align-items: center;
-    }
+        h2 {
+            color: #008f39;
+            margin-bottom: 20px;
+        }
 
-    .header img {
-        width: 130px;
-        margin-right: 15px;
-    }
+        .info {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 16px;
+        }
 
-    h1 {
-        color: var(--holcim-blue);
-        text-align: center;
-        margin-top: 20px;
-    }
+        .info p {
+            margin: 5px 0;
+        }
 
-    .menu-btn {
-        text-align: center;
-        margin-bottom: 20px;
-    }
+        a.boton {
+            display: block;
+            margin-top: 20px;
+            padding: 12px;
+            background: #005baa;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .menu-btn button {
-        background: var(--holcim-blue-dark);
-        color: white;
-        border: none;
-        padding: 10px 18px;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 15px;
-        transition: 0.25s;
-        font-weight: bold;
-    }
+        a.boton:hover {
+            background: #004b8c;
+        }
+    </style>
 
-    .menu-btn button:hover {
-        background: var(--holcim-blue);
-    }
-
-    form {
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        max-width: 520px;
-        margin: 0 auto 25px auto;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    }
-
-    label {
-        display: block;
-        margin: 10px 0 5px;
-        font-weight: bold;
-        color: #333;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        margin-bottom: 12px;
-        font-size: 15px;
-    }
-
-    button {
-        padding: 12px 18px;
-        background: var(--holcim-blue);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: bold;
-        transition: background 0.25s;
-    }
-
-    button:hover {
-        background: var(--holcim-blue-dark);
-    }
-
-    table {
-        width: 95%;
-        margin: 20px auto;
-        border-collapse: collapse;
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    }
-
-    th {
-        background: var(--holcim-blue-dark);
-        color: white;
-        padding: 12px;
-        font-size: 15px;
-    }
-
-    td {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-        font-size: 14px;
-    }
-
-    tr:hover {
-        background: #f0f3f7;
-    }
-
-    .exit-form button {
-        background: #005BAA;
-        padding: 6px 12px;
-        font-size: 14px;
-    }
-
-</style>
 </head>
-
 <body>
 
-<!-- ENCABEZADO CORPORATIVO -->
-<div class="header">
-    <img src="/static/images/holcim_logo.png" alt="Logo Holcim">
-    Sistema de Registro de Visitantes
-</div>
+    <div class="box">
 
-<h1>Registro de Visitantes</h1>
+        <h1>Visitante Registrado</h1>
+        <h2>✔ Registro Exitoso</h2>
 
-<div class="menu-btn">
-<button onclick="location.href='/home'">Menú Principal</button>
-</div>
+        <div class="info">
+            <p><strong>Nombre:</strong> {{ visitante.nombre }}</p>
+            <p><strong>Cédula:</strong> {{ visitante.cedula }}</p>
+            <p><strong>Empresa:</strong> {{ visitante.empresa }}</p>
+            <p><strong>Responsable:</strong> {{ visitante.responsable }}</p>
+            <p><strong>Placa:</strong> {{ visitante.placa }}</p>
+            <p><strong>Motivo:</strong> {{ visitante.motivo }}</p>
+            <p><strong>Hora de ingreso:</strong> {{ visitante.hora_ingreso }}</p>
+        </div>
 
-<!-- FORMULARIO -->
-<form method="POST">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" required>
+        <!-- 🔧 RUTAS CORRECTAS -->
+        <a class="boton" href="{{ url_for('registro') }}">⬅ Registrar otro</a>
+        <a class="boton" href="{{ url_for('home') }}"> Menú Principal</a>
 
-    <label>Cédula:</label>
-    <input type="text" name="cedula" required>
-
-    <label>Empresa:</label>
-    <input type="text" name="empresa" required>
-
-    <label>Persona a visitar:</label>
-    <input type="text" name="responsable" required>
-
-    <label>Motivo:</label>
-    <input type="text" name="motivo" required>
-
-    <label>Placa del vehículo:</label>
-    <input type="text" name="placa">
-
-    <button type="submit">Registrar Ingreso</button>
-</form>
-
-{% if visitors %}
-<table>
-    <tr>
-        <th>#</th>
-        <th>Nombre</th>
-        <th>Cédula</th>
-        <th>Empresa</th>
-        <th>Responsable</th>
-        <th>Motivo</th>
-        <th>Placa</th>
-        <th>Ingreso</th>
-        <th>Salida</th>
-        <th>Acciones</th>
-    </tr>
-
-    {% for v in visitors %}
-    <tr>
-        <td>{{ loop.index }}</td>
-        <td>{{ v.nombre }}</td>
-        <td>{{ v.cedula }}</td>
-        <td>{{ v.empresa }}</td>
-        <td>{{ v.responsable }}</td>
-        <td>{{ v.motivo }}</td>
-        <td>{{ v.placa }}</td>
-        <td>{{ v.hora_ingreso }}</td>
-        <td>{{ v.hora_salida or '-' }}</td>
-
-        <td>
-            {% if not v.hora_salida %}
-            <form class="exit-form" method="GET" action="{{ url_for('salida', index=loop.index0) }}">
-                <button type="submit">Dar salida</button>
-            </form>
-            {% else %}
-            -
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</table>
-{% endif %}
+    </div>
 
 </body>
 </html>
